@@ -72,7 +72,6 @@ do
             if not t then
                 t = ws.add("scratch", {props={screen=s, layout=common.layout}})
             end
-            print('tag: '..viewport().name)
             if t == viewport() then
                 awful.tag.history.restore(s)
             else
