@@ -1,5 +1,4 @@
 local dovetail = require("awesome-dovetail")
-local hooks = require("hooks")
 
 local function terminal(args)
     return {
@@ -25,8 +24,6 @@ common.clients = {
     editor = terminal("vim"),
     term = terminal(),
 }
-
-common.globalhooks = hooks.new()
 
 common.layout = dovetail.layout.tile.horizontal.mirror
 
