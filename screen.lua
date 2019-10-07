@@ -22,7 +22,7 @@ launch.widget.border_color = beautiful.fg_normal
 
 local myvolumebar = audio.widget.volumebar()
 
-function set_taglist_index(self, _, i)
+local function set_taglist_index(self, _, i)
     self:get_children_by_id('index_role')[1].markup = '<b> '..i..' </b>'
 end
 
