@@ -22,6 +22,20 @@ launch.widget.border_color = beautiful.fg_normal
 
 local myvolumebar = audio.widget.volumebar()
 
+-- Workaround for: https://github.com/awesomeWM/awesome/issues/2780
+-- With three tags, select in this order:
+-- 3, 2, 3, 1, 3,
+-- then close the client on tag 3, removing the volatile tag.
+-- Tag 1 will have focus, press M-1 to switch to previous tag
+-- (see bindings.lua) and no tag will be selected.
+local function always_view_tag(s)
+    s:connect_signal("tag::history::update", function (s)
+        if #s.selected_tags == 0 and s.tags[1] then
+            s.tags[1]:view_only()
+        end
+    end)
+end
+
 local function set_taglist_index(self, _, i)
     self:get_children_by_id('index_role')[1].markup = '<b> '..i..' </b>'
 end
@@ -29,6 +43,9 @@ end
 dovetail.get_tag = viewport
 awful.screen.connect_for_each_screen(function (s)
     viewport.connect(s)
+
+    always_view_tag(s)
+
     ws.add("scratch", {props={
                 screen=s,
                 selected=true,
