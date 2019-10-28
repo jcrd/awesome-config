@@ -103,6 +103,13 @@ do
                 end
             end)
         end
+        keys["M-A-" .. i] = function ()
+            with_tag(i, function (t)
+                if t then
+                    t:delete()
+                end
+            end)
+        end
     end
     bindings.globalkeys = gears.table.join(bindings.globalkeys,
         ez.keytable(keys))
