@@ -63,37 +63,45 @@ bindings.globalkeys = ez.keytable {
     ["S-<Print>"] = {screenshot.take, true},
 }
 
+local function with_tag(i, func)
+    local s = awful.screen.focused()
+    local t = s.tags[i]
+    func(t)
+end
+
 do
     local keys = {}
     for i=1,9 do
         keys["M-" .. i] = function ()
-            local s = awful.screen.focused()
-            local t = s.tags[i]
-            if not t then
-                t = ws.add("scratch", {props={screen=s, layout=common.layout}})
-            end
-            if t == viewport() then
-                awful.tag.history.restore(s)
-            else
-                t:view_only()
-            end
+            with_tag(i, function (t)
+                if not t then
+                    t = ws.add("scratch",
+                        {props={screen=s, layout=common.layout}})
+                end
+                if t == viewport() then
+                    awful.tag.history.restore(s)
+                else
+                    t:view_only()
+                end
+            end)
         end
         keys["M-S-" .. i] = function ()
             if client.focus then
                 local t = client.focus.screen.tags[i]
                 if not t then
-                    t = ws.add("scratch", {props={screen=s, layout=common.layout}})
+                    t = ws.add("scratch",
+                        {props={screen=s, layout=common.layout}})
                 end
                 client.focus:move_to_tag(t)
                 t:view_only()
             end
         end
         keys["M-C-" .. i] = function ()
-            local s = awful.screen.focused()
-            local t = s.tags[i]
-            if t then
-                awful.tag.viewtoggle(t)
-            end
+            with_tag(i, function (t)
+                if t then
+                    awful.tag.viewtoggle(t)
+                end
+            end)
         end
     end
     bindings.globalkeys = gears.table.join(bindings.globalkeys,
