@@ -11,7 +11,7 @@ theme.wibar_height = 20
 theme.master_width_factor = 0.6
 
 theme.font_size = dpi(13)
-theme.font_name = "Iosevka,Font Awesome 5 Free"
+theme.font_name = "Iosevka Term,Font Awesome 5 Free"
 theme.font = string.format("%s %dpx", theme.font_name, theme.font_size)
 
 -- special
