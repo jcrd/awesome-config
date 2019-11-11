@@ -28,6 +28,7 @@ theme.color1 = "#af0000"
 theme.color9 = "#d70000"
 
 -- green
+theme.hl_green = "#00AA00"
 theme.color2 = "#008700"
 theme.color10 = "#d70087"
 
@@ -61,7 +62,7 @@ theme.fg_focus = theme.bg_normal
 theme.useless_gap = dpi(2)
 theme.border_width = dpi(2)
 theme.border_normal = theme.color0
-theme.border_focus = theme.color2
+theme.border_focus = theme.hl_green
 theme.border_marked = theme.color9
 
 theme.notification_border_width = dpi(1)
