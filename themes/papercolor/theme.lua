@@ -11,9 +11,8 @@ theme.wibar_height = 20
 theme.master_width_factor = 0.6
 
 theme.font_size = dpi(13)
-theme.font_name = "Iosevka,Font Awesome 5 Free,Pomicons"
+theme.font_name = "Iosevka,Font Awesome 5 Free"
 theme.font = string.format("%s %dpx", theme.font_name, theme.font_size)
-theme.dmenu_font = "Iosevka 10px"
 
 -- special
 theme.foreground = "#444444"
