@@ -1,7 +1,28 @@
+local naughty = require("naughty")
+
 local dbus = require("dbus_proxy")
 
 local session = {}
+local backlights = {}
 session.backlights = {}
+
+local dummy_backlight = {
+    SetBrightness = function () end,
+    IncBrightness = function () end,
+}
+
+setmetatable(session.backlights, {__index = function (_, k)
+    local bl = backlights[k]
+    if not bl then
+        naughty.notify({
+                preset = naughty.config.presets.critical,
+                title = "session.backlights",
+                text = "Backlight '"..k.."' not found",
+            })
+        return dummy_backlight
+    end
+    return bl
+end})
 
 local function new_backlight(path)
     return dbus.Proxy:new {
@@ -15,13 +36,13 @@ end
 local function add_backlight(path)
     local bl = new_backlight(path)
     bl.obj_path = path
-    session.backlights[bl.Name] = bl
+    backlights[bl.Name] = bl
 end
 
 local function remove_backlight(path)
-    for n, bl in pairs(session.backlights) do
+    for n, bl in pairs(backlights) do
         if bl.obj_path == path then
-            session.backlights[n] = nil
+            backlights[n] = nil
         end
     end
 end
@@ -34,8 +55,8 @@ local function callback(p, appear)
         p:connect_signal(add_backlight, "AddBacklight")
         p:connect_signal(remove_backlight, "RemoveBacklight")
     else
-        for n in pairs(session.backlights) do
-            session.backlights[n] = nil
+        for n in pairs(backlights) do
+            backlights[n] = nil
         end
     end
 end
