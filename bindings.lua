@@ -32,7 +32,7 @@ bindings.globalkeys = ez.keytable {
     ["M-S-j"] = awful.tag.viewnext,
     ["M-S-k"] = awful.tag.viewprev,
     ["M-<space>"] = dovetail.command.toggle_centered,
-    ["M-<Tab>"] = dovetail.command.focus.other,
+    ["M-f"] = dovetail.command.focus.other,
     ["M-o"] = dovetail.command.master.viewtoggle,
     ["M-x"] = dovetail.command.master.queue,
     ["M-j"] = dovetail.command.focus.stack.next,
@@ -42,16 +42,16 @@ bindings.globalkeys = ez.keytable {
     ["M-h"] = {dovetail.command.master.cycle, -1},
     ["M-l"] = {dovetail.command.master.cycle, 1},
     ["M-m"] = common.hide_mouse,
-    ["M-q"] = naughty.destroy_all_notifications,
+    ["M-d"] = naughty.destroy_all_notifications,
     ["M-C-r"] = awesome.restart,
     ["M-C-q"] = awesome.quit,
     ["M-C-<equal>"] = {awful.spawn, "systemctl suspend"},
     ["M-C-<minus>"] = {awful.spawn, "systemctl poweroff"},
     ["M-<BackSpace>"] = session.lock,
-    ["M-<F5>"] = function ()
+    ["M-<Down>"] = function ()
         session.backlights.intel_backlight:IncBrightness(-100)
     end,
-    ["M-<F6>"] = function ()
+    ["M-<Up>"] = function ()
         session.backlights.intel_backlight:IncBrightness(100)
     end,
     ["<XF86AudioLowerVolume>"] = {audio.inc, -2},
@@ -114,7 +114,7 @@ do
 end
 
 bindings.clientkeys = ez.keytable {
-    ["M-f"] = function (c)
+    ["M-g"] = function (c)
         c.fullscreen = not c.fullscreen
         c:raise()
     end,
@@ -128,6 +128,7 @@ bindings.clientkeys = ez.keytable {
             dovetail.command.master.swap()
         end
     end,
+    -- Normalize client.
     ["M-n"] = function (c)
         c.floating = false
         c.fullscreen = false
@@ -137,7 +138,7 @@ bindings.clientkeys = ez.keytable {
         c.sticky = false
         c.ontop = false
     end,
-    ["M-S-q"] = function (c) c:kill() end,
+    ["M-S-d"] = function (c) c:kill() end,
     ["M-i"] = hud.clientinfo,
 }
 
