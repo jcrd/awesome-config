@@ -29,8 +29,6 @@ bindings.globalkeys = ez.keytable {
     ["M-e"] = {launch.spawn.viewport, unpack(common.clients.editor)},
     ["M-<grave>"] = {panel.toggle, "kitty -1",
         {id="terminal", factory="kitty", scale=0.6}},
-    ["M-/"] = {panel.toggle, "kitty -1 weechat",
-        {id="weechat", factory="kitty", scale=0.6}},
     ["M-S-j"] = awful.tag.viewnext,
     ["M-S-k"] = awful.tag.viewprev,
     ["M-<space>"] = dovetail.command.toggle_centered,
