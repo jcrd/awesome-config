@@ -9,12 +9,12 @@ local panel = require("awesome-launch.panel")
 local ws = require("awesome-launch.workspace")
 local dovetail = require("awesome-dovetail")
 local viewport = require("awesome-viewport")
+local session = require("sessiond_dbus")
 
 local audio = require("audio")
 local common = require("common")
 local hud = require("hud")
 local screenshot = require("screenshot")
-local session = require("session")
 
 local bindings = {}
 
@@ -49,10 +49,10 @@ bindings.globalkeys = ez.keytable {
     ["M-C-<minus>"] = {awful.spawn, "systemctl poweroff"},
     ["M-<BackSpace>"] = session.lock,
     ["M-<Down>"] = function ()
-        session.backlights.intel_backlight:IncBrightness(-100)
+        session.backlights.default.dec_brightness()
     end,
     ["M-<Up>"] = function ()
-        session.backlights.intel_backlight:IncBrightness(100)
+        session.backlights.default.inc_brightness()
     end,
     ["<XF86AudioLowerVolume>"] = {audio.inc, -2},
     ["<XF86AudioRaiseVolume>"] = {audio.inc, 2},

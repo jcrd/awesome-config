@@ -9,6 +9,8 @@ require("awful.remote")
 beautiful.init(awful.util.get_configuration_dir()
     .. "themes/papercolor/theme.lua")
 
+local session = require("sessiond_dbus")
+
 local common = require("common")
 local bindings = require("bindings")
 require("client")
@@ -42,5 +44,13 @@ if awesome.startup_errors then
             preset = naughty.config.presets.critical,
             title = "Error during startup",
             text = awesome.startup_errors,
+        })
+end
+
+session.on_backlight_error = function (msg)
+    naughty.notify({
+            preset = naughty.config.presets.critical,
+            title = "session.backlights",
+            text = msg,
         })
 end
