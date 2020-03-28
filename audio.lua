@@ -81,7 +81,7 @@ local function connect()
 end
 
 audio.widget = {}
-audio.widget.icons = {[false] = "", [true] = ""}
+audio.widget.icons = {[false] = "", [true] = ""}
 
 function audio.widget.volumebar()
     if not widget then
