@@ -7,11 +7,13 @@ local my_themes_path = util.get_configuration_dir() .. "themes/"
 
 local theme = {}
 
-theme.wibar_height = 20
+font_size = 12
+
+theme.wibar_height = dpi(font_size + 6)
 theme.master_width_factor = 0.6
 
-theme.font_size = dpi(13)
-theme.font_name = "Iosevka Term,Font Awesome 5 Free"
+theme.font_size = dpi(font_size)
+theme.font_name = "Liberation Mono,Font Awesome 5 Free"
 theme.font = string.format("%s %dpx", theme.font_name, theme.font_size)
 
 -- special
