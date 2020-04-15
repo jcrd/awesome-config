@@ -1,6 +1,5 @@
 local theme_assets = require("beautiful.theme_assets")
-local xresources = require("beautiful.xresources") -- required
-local dpi = xresources.apply_dpi
+local dpi = require("beautiful.xresources").apply_dpi
 
 local util = require('awful.util')
 local my_themes_path = util.get_configuration_dir() .. "themes/"
@@ -82,7 +81,5 @@ theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
     taglist_squares_size, theme.fg_normal
 )
-
-theme.icon_theme = nil
 
 return theme
