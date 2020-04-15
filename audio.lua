@@ -97,8 +97,8 @@ function audio.widget.volumebar()
                 max_value = 100,
                 forced_width = 50,
                 margins = {
-                    top = 8,
-                    bottom = 8,
+                    top = beautiful.wibar_height / 2 - 1,
+                    bottom = beautiful.wibar_height / 2 - 2,
                     left = 2,
                     right = 2,
                 },
