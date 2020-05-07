@@ -1,0 +1,17 @@
+#!/bin/sh
+
+make_rock() {
+    git clone https://github.com/jcrd/$1 $2 2>/dev/null && make -C $2
+}
+
+install_rock() {
+    luarocks show $1 >/dev/null || luarocks install $1
+}
+
+make_rock awesome-dovetail dovetail
+make_rock awesome-ez ez
+make_rock awesome-launch launch
+make_rock awesome-viewport viewport
+make_rock lua-sessiond_dbus sessiond_dbus
+
+install_rock pulseaudio_dbus
