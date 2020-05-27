@@ -1,0 +1,9 @@
+FROM registry.fedoraproject.org/f32/fedora-toolbox:32
+
+RUN dnf upgrade -y
+
+RUN dnf install -y make
+RUN dnf install -y gcc
+RUN dnf install -y gobject-introspection-devel
+RUN dnf install -y lua-devel
+RUN dnf install -y luarocks
