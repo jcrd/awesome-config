@@ -5,7 +5,7 @@ make_rock() {
 }
 
 install_rock() {
-    luarocks show $1 >/dev/null || luarocks install $1
+    luarocks show $1 >/dev/null || luarocks install --local $1
 }
 
 make_rock awesome-dovetail dovetail
