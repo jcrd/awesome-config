@@ -1,7 +1,7 @@
 #!/bin/sh
 
 rock_exists() {
-    luarocks show $1 >/dev/null
+    luarocks show $1 >/dev/null 2>&1
 }
 
 make_rock() {
