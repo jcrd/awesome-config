@@ -18,12 +18,13 @@ toolbox_install_rock() {
 }
 
 install_rock() {
-    rock_exists $1 || luarocks install --local $1
+    r=$1
+    shift
+    rock_exists $r || luarocks install --local "$@" $r
 }
 
-# toolbox provides build dependencies
-toolbox_install_rock lgi
-
+# ignore lgi dependency; use system lua-lgi
+install_rock dbus_proxy --deps-mode=none
 install_rock pulseaudio_dbus
 
 make_rock awesome-dovetail dovetail
