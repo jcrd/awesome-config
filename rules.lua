@@ -19,6 +19,10 @@ awful.rules.rules = {
         },
     },
     {
+        rule_any = {type = "normal"},
+        properties = {titlebars_enabled = true},
+    },
+    {
         rule_any = {
             class = {
                 "Pinentry",

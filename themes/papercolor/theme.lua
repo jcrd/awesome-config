@@ -61,15 +61,12 @@ theme.fg_focus = theme.bg_normal
 
 theme.useless_gap = dpi(2)
 theme.border_width = dpi(2)
-theme.border_normal = theme.color0
-theme.border_focus = theme.hl_green
+theme.border_normal = theme.bg_normal
+theme.border_focus = theme.bg_focus
 theme.border_marked = theme.color9
 
 theme.notification_border_width = dpi(1)
 theme.notification_border_color = theme.fg_normal
-
-theme.wibar_border_width = dpi(1)
-theme.wibar_border_color = theme.fg_normal
 
 theme.tasklist_disable_icon = true
 theme.tasklist_align = "center"

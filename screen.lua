@@ -78,29 +78,12 @@ awful.screen.connect_for_each_screen(function (s)
         },
     }
 
-    s.mystacklist = awful.widget.tasklist {
-        screen = s,
-        filter = dovetail.widget.tasklist.filter.stack,
-        layout = {
-            max_widget_size = s.geometry.width / 6,
-            layout = wibox.layout.flex.horizontal,
-        },
-    }
-
-    s.mymasterlist = awful.widget.tasklist {
-        screen = s,
-        filter = dovetail.widget.tasklist.filter.master,
-        layout = {
-            max_widget_size = s.geometry.width / 6,
-            layout = wibox.layout.flex.horizontal,
-        },
-    }
-
     s.launchbar = launch.widget.launchbar {
         screen = s,
     }
 
     s.mywibox = awful.wibar({
+            position = "bottom",
             height = beautiful.wibar_height,
             screen = s,
         })
@@ -108,12 +91,7 @@ awful.screen.connect_for_each_screen(function (s)
     s.mywibox:setup {
         s.mytaglist,
         {
-            {
-                s.launchbar,
-                s.mystacklist,
-                s.mymasterlist,
-                layout = wibox.layout.fixed.horizontal,
-            },
+            s.launchbar,
             layout = wibox.container.constraint,
             width = s.geometry.width / 2,
         },
