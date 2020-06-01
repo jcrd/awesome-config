@@ -73,7 +73,7 @@ do
         keys["M-" .. i] = function ()
             with_tag(i, function (t)
                 if not t then
-                    t = ws.add("scratch",
+                    t = ws.new("scratch",
                         {props={screen=s, layout=common.layout}})
                 end
                 if t == viewport() then
@@ -87,7 +87,7 @@ do
             if client.focus then
                 local t = client.focus.screen.tags[i]
                 if not t then
-                    t = ws.add("scratch",
+                    t = ws.new("scratch",
                         {props={screen=s, layout=common.layout}})
                 end
                 client.focus:move_to_tag(t)

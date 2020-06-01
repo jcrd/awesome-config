@@ -46,7 +46,7 @@ awful.screen.connect_for_each_screen(function (s)
 
     always_view_tag(s)
 
-    ws.add("scratch", {props={
+    ws.new("scratch", {props={
                 screen=s,
                 selected=true,
                 volatile=false,
