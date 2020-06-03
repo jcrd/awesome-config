@@ -13,7 +13,10 @@ local function filter(c)
 end
 
 client.connect_signal("request::titlebars", function (c)
-    awful.titlebar(c).widget = awful.widget.tasklist {
+    local opts = {
+        size = beautiful.wibar_height,
+    }
+    awful.titlebar(c, opts).widget = awful.widget.tasklist {
         screen = c.screen,
         filter = filter(c),
     }
