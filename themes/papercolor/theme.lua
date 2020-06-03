@@ -8,7 +8,7 @@ local theme = {}
 
 font_size = 12
 
-theme.wibar_height = dpi(font_size + 6)
+theme.wibar_height = dpi(font_size + 4)
 theme.master_width_factor = 0.6
 
 theme.font_size = dpi(font_size)
