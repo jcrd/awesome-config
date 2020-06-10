@@ -5,7 +5,10 @@ rock_exists() {
 }
 
 make_rock() {
-    git clone https://github.com/jcrd/$1 $2 2>/dev/null && make -C $2
+    git clone https://github.com/jcrd/$1 $2 2>/dev/null
+    if [ $? == 0 ]; then
+        make -C $2
+    fi
 }
 
 toolbox_install_rock() {
