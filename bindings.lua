@@ -21,7 +21,8 @@ local bindings = {}
 launch.spawn.viewport = launch.spawn.here(viewport).raise_or_spawn
 
 bindings.globalkeys = ez.keytable {
-    ["M-p"] = function () menubar.show() end,
+    ["M-p"] = {awful.spawn, "rofi -show run"},
+    ["M-w"] = {awful.spawn, "passless-rofi"},
     ["M-S-<Return>"] = {launch.spawn, "kitty -1", {factory="kitty"}},
     ["M-<Return>"] = {launch.spawn.viewport, unpack(common.clients.term)},
     ["M-b"] = {launch.spawn.viewport, unpack(common.clients.browser)},
