@@ -20,7 +20,35 @@ globalhooks:add("refresh", function () myclock:force_update() end)
 launch.widget.color = beautiful.color8
 launch.widget.border_color = beautiful.fg_normal
 
-local myvolumebar = audio.widget.volumebar()
+local info = {
+    {
+        audio.widget.volumebar(),
+        widget = wibox.container.margin,
+        left = 10,
+        right = 10,
+    },
+    {
+        {
+            myclock,
+            widget = wibox.container.margin,
+            left = 10,
+            right = 10,
+        },
+        widget = wibox.container.background,
+        fg = beautiful.fg_focus,
+        bg = beautiful.bg_focus,
+    },
+    layout = wibox.layout.fixed.horizontal,
+}
+
+if os.getenv('CHASSIS') == 'laptop' then
+    table.insert(info, 1, {
+        require('battery').widget.time(),
+        widget = wibox.container.margin,
+        left = 10,
+        right = 10,
+    })
+end
 
 -- Workaround for: https://github.com/awesomeWM/awesome/issues/2780
 -- With three tags, select in this order:
@@ -95,26 +123,7 @@ awful.screen.connect_for_each_screen(function (s)
             layout = wibox.container.constraint,
             width = s.geometry.width / 2,
         },
-        {
-            {
-                myvolumebar,
-                widget = wibox.container.margin,
-                left = 10,
-                right = 10,
-            },
-            {
-                {
-                    myclock,
-                    widget = wibox.container.margin,
-                    left = 10,
-                    right = 10,
-                },
-                widget = wibox.container.background,
-                fg = beautiful.fg_focus,
-                bg = beautiful.bg_focus,
-            },
-            layout = wibox.layout.fixed.horizontal,
-        },
+        info,
         layout = wibox.layout.align.horizontal,
         expand = "none",
     }

@@ -32,3 +32,7 @@ make_rock awesome-ez ez
 make_rock awesome-launch launch
 make_rock awesome-viewport viewport
 make_rock lua-sessiond_dbus sessiond_dbus
+
+if [ "$CHASSIS" == laptop ]; then
+    install_rock upower_dbus
+fi
