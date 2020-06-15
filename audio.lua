@@ -20,9 +20,13 @@ local function update_volume(v)
     widget.id_progress.value = v or get_volume()
 end
 
+local function format_icon(i)
+    return '<span rise="4000">'..i..'</span>'
+end
+
 local function update_muted(m)
     if not widget then return end
-    widget.id_icon.text = audio.widget.icons[m or sink:is_muted()]
+    widget.id_icon.markup = format_icon(audio.widget.icons[m or sink:is_muted()])
 end
 
 
@@ -97,7 +101,7 @@ function audio.widget.volumebar()
                 max_value = 100,
                 forced_width = 50,
                 margins = {
-                    top = beautiful.wibar_height / 2 - 1,
+                    top = beautiful.wibar_height / 2 - 2,
                     bottom = beautiful.wibar_height / 2 - 2,
                     left = 2,
                     right = 2,

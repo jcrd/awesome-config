@@ -9,7 +9,7 @@ local power = false
 local widget
 
 local function get_battery()
-    for i = 1, #upower.Manager.devices do
+    for i = 1,#upower.Manager.devices do
         local dev = upower.Manager.devices[i]
         if dev.type == upower.enums.DeviceType.Battery then
             return dev
@@ -21,6 +21,10 @@ local batt = get_battery()
 
 local function format_sec(s)
     return os.date("!%X", s)
+end
+
+local function format_icon(i)
+    return '<span rise="4000">'..i..'</span>'
 end
 
 local function get_icon(percent)
@@ -40,7 +44,7 @@ end
 local function update()
     if batt.TimeToEmpty > 0 then
         local function set()
-            widget.id_icon.text = get_icon(batt.Percentage)
+            widget.id_icon.markup = format_icon(get_icon(batt.Percentage))
             widget.id_time.text = format_sec(batt.TimeToEmpty)
         end
         if power then
@@ -57,7 +61,7 @@ local function update()
         end
     else
         power = true
-        widget.id_icon.text = battery.widget.icons.power
+        widget.id_icon.markup = format_icon(battery.widget.icons.power)
         widget.id_time.text = format_sec(batt.TimeToFull)
     end
 end
