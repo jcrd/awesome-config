@@ -31,6 +31,7 @@ end)
 
 client.connect_signal("property::floating", function (c)
     if c.floating then
+        c.skip_taskbar = true
         awful.titlebar.hide(c)
         awful.placement.centered(c)
     else
