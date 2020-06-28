@@ -41,6 +41,8 @@ client.connect_signal("property::floating", function (c)
     if c.floating then
         c.skip_taskbar = true
         awful.placement.centered(c)
+    else
+        c.skip_taskbar = false
     end
     toggle_titlebar(c, c.floating)
 end)
