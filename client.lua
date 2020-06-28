@@ -4,6 +4,14 @@ local wibox = require("wibox")
 
 local dovetail = require("awesome-dovetail")
 
+local function toggle_titlebar(c, state)
+    if state then
+        awful.titlebar.hide(c)
+    else
+        awful.titlebar.show(c)
+    end
+end
+
 local function filter(c)
     return function (...)
         if dovetail.layout.masterp(c) then
@@ -32,11 +40,13 @@ end)
 client.connect_signal("property::floating", function (c)
     if c.floating then
         c.skip_taskbar = true
-        awful.titlebar.hide(c)
         awful.placement.centered(c)
-    else
-        awful.titlebar.show(c)
     end
+    toggle_titlebar(c, c.floating)
+end)
+
+client.connect_signal("property::fullscreen", function (c)
+    toggle_titlebar(c, not c.fullscreen)
 end)
 
 client.connect_signal("manage", function (c)
