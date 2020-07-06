@@ -14,7 +14,9 @@ end
 
 local function filter(c)
     return function (...)
-        if dovetail.layout.masterp(c) then
+        if not c.valid then
+            return function () return false end
+        elseif dovetail.layout.masterp(c) then
             return dovetail.widget.tasklist.filter.master(...)
         else
             return dovetail.widget.tasklist.filter.stack(...)
