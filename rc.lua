@@ -24,33 +24,22 @@ end)
 
 root.keys(bindings.globalkeys)
 
-do
-    local has_error = false
-    awesome.connect_signal("debug::error", function (err)
-        if not has_error then
-            has_error = true
-            naughty.notify({
-                    preset = naughty.config.presets.critical,
-                    title = "Error",
-                    text = tostring(err),
-                })
-            has_error = false
-        end
-    end)
-end
+naughty.connect_signal("request::display", function (n)
+    naughty.layout.box {notification = n}
+end)
 
-if awesome.startup_errors then
-    naughty.notify({
-            preset = naughty.config.presets.critical,
-            title = "Error during startup",
-            text = awesome.startup_errors,
-        })
-end
+naughty.connect_signal("request::display_error", function (message, startup)
+    naughty.notification {
+        urgency = "critical",
+        title   = "Error"..(startup and " during startup!" or "!"),
+        message = message,
+    }
+end)
 
 session.on_backlight_error = function (msg)
-    naughty.notify({
-            preset = naughty.config.presets.critical,
-            title = "session.backlights",
-            text = msg,
-        })
+    naughty.notification {
+        urgency = "critical",
+        title = "session.backlights",
+        message = msg,
+    }
 end

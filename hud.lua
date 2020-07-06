@@ -22,11 +22,11 @@ function hud.clientinfo(c)
     for k, v in pairs(props) do
         text = text .. string.format('\n%s: %s', k, v)
     end
-    naughty.notify({
-            title = 'Client info',
-            text = text,
-            position = 'top_middle',
-        })
+    naughty.notification {
+        title = 'Client info',
+        message = text,
+        position = 'top_middle',
+    }
 end
 
 return hud
