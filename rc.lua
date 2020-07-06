@@ -22,8 +22,6 @@ awesome.connect_signal("startup", function ()
     common.hide_mouse()
 end)
 
-root.keys(bindings.globalkeys)
-
 naughty.connect_signal("request::display", function (n)
     naughty.layout.box {notification = n}
 end)
