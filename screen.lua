@@ -69,7 +69,7 @@ local function set_taglist_index(self, _, i)
 end
 
 dovetail.get_tag = viewport
-awful.screen.connect_for_each_screen(function (s)
+screen.connect_signal("request::desktop_decoration", function (s)
     viewport.connect(s)
 
     always_view_tag(s)
@@ -127,5 +127,8 @@ awful.screen.connect_for_each_screen(function (s)
         layout = wibox.layout.align.horizontal,
         expand = "none",
     }
+end)
+
+screen.connect_signal("request::wallpaper", function (s)
     gears.wallpaper.set(beautiful.bg_normal)
 end)
