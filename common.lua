@@ -17,9 +17,9 @@ end
 local common = {}
 
 common.clients = {
-    browser = {"/usr/bin/qutebrowser",
+    browser = {"qutebrowser",
         {factory="qutebrowser", firejail=true, timeout=3}},
-    chromium = {"/usr/bin/chromium",
+    chromium = {"chromium",
         {factory="chromium", firejail=true, timeout=3}},
     editor = terminal("vim"),
     term = terminal(),
