@@ -106,23 +106,33 @@ screen.connect_signal("request::desktop_decoration", function (s)
         },
     }
 
-    s.launchbar = launch.widget.launchbar {
+    s.myclientlist = {
+        {
+            launch.widget.launchbar {
+                screen = s,
+            },
+            awful.widget.tasklist {
+                screen = s,
+                filter = dovetail.widget.tasklist.filter.stack,
+            },
+            awful.widget.tasklist {
+                screen = s,
+                filter = dovetail.widget.tasklist.filter.master,
+            },
+            layout = wibox.layout.fixed.horizontal,
+        },
+        layout = wibox.container.constraint,
+        width = s.geometry.width / 1.5,
+    }
+
+    s.mywibox = awful.wibar {
+        height = beautiful.wibar_height,
         screen = s,
     }
 
-    s.mywibox = awful.wibar({
-            position = "bottom",
-            height = beautiful.wibar_height,
-            screen = s,
-        })
-
     s.mywibox:setup {
         s.mytaglist,
-        {
-            s.launchbar,
-            layout = wibox.container.constraint,
-            width = s.geometry.width / 2,
-        },
+        s.myclientlist,
         info,
         layout = wibox.layout.align.horizontal,
         expand = "none",
