@@ -1,4 +1,7 @@
-pcall(require, "luarocks.loader")
+if not pcall(require, "luarocks.loader") then
+    local d = string.format(';%s/.luarocks/share/lua/5.3', os.getenv('HOME'))
+    package.path = package.path..d..'/?.lua'..d..'/?/init.lua'
+end
 
 local awful = require("awful")
 local beautiful = require("beautiful")
@@ -13,9 +16,9 @@ local session = require("sessiond_dbus")
 
 local common = require("common")
 local bindings = require("bindings")
-require("client")
-require("screen")
-require("rules")
+require("client_")
+require("screen_")
+require("rules_")
 
 awesome.connect_signal("startup", function ()
     print("--- startup ---")
