@@ -16,8 +16,6 @@ local common = require("common")
 local hud = require("hud")
 local screenshot = require("screenshot")
 
-local bindings = {}
-
 launch.spawn.viewport = launch.spawn.here(viewport).raise_or_spawn
 
 awful.keyboard.append_global_keybindings(ez.keytable {
@@ -143,5 +141,3 @@ client.connect_signal("request::default_mousebindings", function ()
         ["M-3"] = awful.mouse.client.resize,
     })
 end)
-
-return bindings

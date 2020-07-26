@@ -15,7 +15,7 @@ beautiful.init(awful.util.get_configuration_dir()
 local session = require("sessiond_dbus")
 
 local common = require("common")
-local bindings = require("bindings")
+require("bindings_")
 require("client_")
 require("screen_")
 require("rules_")
