@@ -4,7 +4,6 @@ local gears = require("gears")
 local wibox = require("wibox")
 
 local launch = require("awesome-launch")
-local ws = require("awesome-launch.workspace")
 local dovetail = require("awesome-dovetail")
 local viewport = require("awesome-viewport")
 
@@ -77,16 +76,14 @@ end
 
 dovetail.get_tag = viewport
 screen.connect_signal("request::desktop_decoration", function (s)
+    awful.tag.add("main", {
+        screen = s,
+        selected = true,
+        layout = awful.layout.layouts[1],
+    })
+
     viewport.connect(s)
-
     always_view_tag(s)
-
-    ws.new("scratch", {props={
-                screen=s,
-                selected=true,
-                volatile=false,
-                layout=awful.layout.layouts[1],
-        }})
 
     s.mytaglist = awful.widget.taglist {
         screen = s,
