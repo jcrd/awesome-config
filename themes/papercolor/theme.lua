@@ -60,6 +60,8 @@ theme.fg_normal = theme.foreground
 theme.fg_focus = theme.bg_normal
 
 theme.useless_gap = dpi(2)
+theme.gap_single_client = false
+
 theme.border_width = dpi(2)
 theme.border_normal = theme.bg_normal
 theme.border_focus = theme.bg_focus
