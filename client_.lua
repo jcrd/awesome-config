@@ -18,6 +18,7 @@ client.connect_signal("manage", function (c)
             awful.placement.no_offscreen(c)
         end
     end
+    awful.client.setslave(c)
 end)
 
 client.connect_signal("focus", function (c)

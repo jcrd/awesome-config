@@ -1,14 +1,10 @@
-local dovetail = require("awesome-dovetail")
+local awful = require("awful")
 
 local function terminal(args)
     return {
         string.format("kitty %s", args or ''),
         {
-            callback=function (c)
-                if not dovetail.layout.get(c.screen).centered then
-                    dovetail.command.master(c)
-                end
-            end,
+            callback = awful.client.setmaster,
         },
     }
 end
@@ -23,8 +19,6 @@ common.clients = {
     editor = terminal("vim"),
     term = terminal(),
 }
-
-common.layout = dovetail.layout.tile.horizontal.mirror
 
 function common.hide_mouse()
     local geom = mouse.screen.geometry

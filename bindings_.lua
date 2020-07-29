@@ -18,6 +18,14 @@ local screenshot = require("screenshot")
 
 launch.spawn.viewport = launch.spawn.here(viewport).raise_or_spawn
 
+local function focus_byidx(i)
+    if dovetail.layout() then
+        dovetail.focus.byidx(i)
+    else
+        awful.client.focus.byidx(i)
+    end
+end
+
 awful.keyboard.append_global_keybindings(ez.keytable {
     ["M-p"] = {awful.spawn, "rofi -show run"},
     ["M-w"] = {awful.spawn, "passless-rofi"},
@@ -29,16 +37,12 @@ awful.keyboard.append_global_keybindings(ez.keytable {
     ["M-grave"] = {panel.toggle, "kitty", {id="terminal", scale=0.6}},
     ["M-S-j"] = awful.tag.viewnext,
     ["M-S-k"] = awful.tag.viewprev,
-    ["M-space"] = dovetail.command.toggle_centered,
-    ["M-f"] = dovetail.command.focus.other,
-    ["M-o"] = dovetail.command.master.viewtoggle,
-    ["M-x"] = dovetail.command.master.queue,
-    ["M-j"] = dovetail.command.focus.stack.next,
-    ["M-k"] = dovetail.command.focus.stack.previous,
+    ["M-f"] = dovetail.focus.other,
+    ["M-j"] = {focus_byidx, 1},
+    ["M-k"] = {focus_byidx, -1},
+    ["M-o"] = {awful.layout.inc, 1},
     ["M-period"] = {awful.tag.incmwfact, 0.05},
     ["M-comma"] = {awful.tag.incmwfact, -0.05},
-    ["M-h"] = {dovetail.command.master.cycle, -1},
-    ["M-l"] = {dovetail.command.master.cycle, 1},
     ["M-m"] = common.hide_mouse,
     ["M-d"] = naughty.destroy_all_notifications,
     ["M-C-r"] = awesome.restart,
@@ -67,12 +71,15 @@ local function with_tag(func)
     end
 end
 
+local function new_tag()
+    return ws.new("scratch", {props={
+        layout = awful.layout.layouts[1],
+    }})
+end
+
 awful.keyboard.append_global_keybindings(ez.keytable {
     ["M-<numrow>"] = with_tag(function (t)
-        if not t then
-            t = ws.new("scratch",
-                {props={screen=s, layout=common.layout}})
-        end
+        t = t or new_tag()
         if t == viewport() then
             awful.tag.history.restore(s)
         else
@@ -81,11 +88,7 @@ awful.keyboard.append_global_keybindings(ez.keytable {
     end),
     ["M-S-<numrow>"] = function (i)
         if client.focus then
-            local t = client.focus.screen.tags[i]
-            if not t then
-                t = ws.new("scratch",
-                    {props={screen=s, layout=common.layout}})
-            end
+            local t = client.focus.screen.tags[i] or new_tag()
             client.focus:move_to_tag(t)
             t:view_only()
         end
@@ -112,11 +115,7 @@ client.connect_signal("request::default_keybindings", function ()
             c.floating = not c.floating
         end,
         ["M-s"] = function (c)
-            if not dovetail.layout.master(c.screen) then
-                dovetail.command.master(c)
-            else
-                dovetail.command.master.swap()
-            end
+            awful.client.setmaster(c)
         end,
         -- Normalize client.
         ["M-n"] = function (c)

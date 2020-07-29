@@ -20,6 +20,13 @@ globalhooks:add("refresh", function () myclock:force_update() end)
 launch.widget.color = beautiful.color8
 launch.widget.border_color = beautiful.fg_normal
 
+tag.connect_signal("request::default_layouts", function ()
+    awful.layout.append_default_layouts {
+        dovetail.layout.left,
+        awful.layout.suit.max,
+    }
+end)
+
 local info = {
     {
         audio.widget.volumebar(),
@@ -78,7 +85,7 @@ screen.connect_signal("request::desktop_decoration", function (s)
                 screen=s,
                 selected=true,
                 volatile=false,
-                layout=common.layout,
+                layout=awful.layout.layouts[1],
         }})
 
     s.mytaglist = awful.widget.taglist {
@@ -113,11 +120,7 @@ screen.connect_signal("request::desktop_decoration", function (s)
             },
             awful.widget.tasklist {
                 screen = s,
-                filter = dovetail.widget.tasklist.filter.stack,
-            },
-            awful.widget.tasklist {
-                screen = s,
-                filter = dovetail.widget.tasklist.filter.master,
+                filter = awful.widget.tasklist.filter.currenttags,
             },
             layout = wibox.layout.fixed.horizontal,
         },
