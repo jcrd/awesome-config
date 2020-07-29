@@ -70,32 +70,34 @@ local function with_tag(func)
     return function (i)
         local s = awful.screen.focused()
         local t = s.tags[i]
+        if not t then
+            local p = s.tags[i - 1]
+            if p and p.name == "scratch" and #p:clients() == 0 then
+                return
+            else
+                t = ws.new("scratch", {props={
+                    layout = awful.layout.layouts[1],
+                }})
+            end
+        end
         func(t)
     end
 end
 
-local function new_tag()
-    return ws.new("scratch", {props={
-        layout = awful.layout.layouts[1],
-    }})
-end
-
 awful.keyboard.append_global_keybindings(ez.keytable {
     ["M-<numrow>"] = with_tag(function (t)
-        t = t or new_tag()
         if t == viewport() then
-            awful.tag.history.restore(s)
+            awful.tag.history.restore()
         else
             t:view_only()
         end
     end),
-    ["M-S-<numrow>"] = function (i)
+    ["M-S-<numrow>"] = with_tag(function (t)
         if client.focus then
-            local t = client.focus.screen.tags[i] or new_tag()
             client.focus:move_to_tag(t)
             t:view_only()
         end
-    end,
+    end),
     ["M-C-<numrow>"] = with_tag(function (t)
         if t then
             awful.tag.viewtoggle(t)
