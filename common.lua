@@ -2,9 +2,8 @@ local dovetail = require("awesome-dovetail")
 
 local function terminal(args)
     return {
-        string.format("kitty -1 %s", args or ''),
+        string.format("kitty %s", args or ''),
         {
-            factory="kitty",
             callback=function (c)
                 if not dovetail.layout.get(c.screen).centered then
                     dovetail.command.master(c)
