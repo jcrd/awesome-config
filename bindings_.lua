@@ -14,6 +14,7 @@ local session = require("sessiond_dbus")
 local audio = require("audio")
 local common = require("common")
 local hud = require("hud")
+local rofi = require("rofi")
 local screenshot = require("screenshot")
 
 launch.spawn.viewport = launch.spawn.here(viewport).raise_or_spawn
@@ -28,12 +29,13 @@ end
 
 awful.keyboard.append_global_keybindings(ez.keytable {
     ["M-p"] = {awful.spawn, "rofi -show run"},
-    ["M-w"] = {awful.spawn, "passless-rofi"},
+    ["M-l"] = {awful.spawn, "passless-rofi"},
+    ["M-w"] = rofi.workspace.new,
     ["M-S-Return"] = {launch.spawn, "kitty"},
-    ["M-Return"] = {launch.spawn.viewport, unpack(common.clients.term)},
-    ["M-b"] = {launch.spawn.viewport, unpack(common.clients.browser)},
-    ["M-c"] = {launch.spawn.viewport, unpack(common.clients.chromium)},
-    ["M-e"] = {launch.spawn.viewport, unpack(common.clients.editor)},
+    ["M-Return"] = {launch.spawn.viewport, unpack(ws.clients.term)},
+    ["M-b"] = {launch.spawn.viewport, unpack(ws.clients.browser)},
+    ["M-c"] = {launch.spawn.viewport, unpack(ws.clients.chromium)},
+    ["M-e"] = {launch.spawn.viewport, unpack(ws.clients.editor)},
     ["M-grave"] = {panel.toggle, "kitty", {id="terminal", scale=0.6}},
     ["M-S-j"] = awful.tag.viewnext,
     ["M-S-k"] = awful.tag.viewprev,
