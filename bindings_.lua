@@ -37,6 +37,7 @@ awful.keyboard.append_global_keybindings(ez.keytable {
     ["M-c"] = {launch.spawn.viewport, unpack(ws.clients.chromium)},
     ["M-e"] = {launch.spawn.viewport, unpack(ws.clients.editor)},
     ["M-grave"] = {panel.toggle, "kitty", {id="terminal", scale=0.6}},
+    ["M-Tab"] = awful.tag.history.restore,
     ["M-S-j"] = awful.tag.viewnext,
     ["M-S-k"] = awful.tag.viewprev,
     ["M-f"] = dovetail.focus.other,
