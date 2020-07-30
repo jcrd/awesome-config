@@ -72,7 +72,8 @@ local function with_tag(func)
         local t = s.tags[i]
         if not t then
             local p = s.tags[i - 1]
-            if p and p.name == "scratch" and #p:clients() == 0 then
+            if i > #s.tags + 1
+                or p and p.name == "scratch" and #p:clients() == 0 then
                 return
             else
                 t = ws.new("scratch", {props={
