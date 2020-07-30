@@ -27,6 +27,35 @@ local function focus_byidx(i)
     end
 end
 
+local function with_tag(func)
+    return function (i)
+        local s = awful.screen.focused()
+        local t = s.tags[i]
+        if not t then
+            local p = s.tags[i - 1]
+            if i > #s.tags + 1
+                or p and p.name == "scratch" and #p:clients() == 0 then
+                return
+            else
+                t = ws.new("scratch", {props={
+                    layout = awful.layout.layouts[1],
+                }})
+            end
+        end
+        func(t)
+    end
+end
+
+local function next_or_new(i)
+    i = viewport().index + i
+    if i < 1 then
+        return
+    end
+    with_tag(function (t)
+        t:view_only()
+    end)(i)
+end
+
 awful.keyboard.append_global_keybindings(ez.keytable {
     ["M-p"] = {awful.spawn, "rofi -show run"},
     ["M-l"] = {awful.spawn, "passless-rofi"},
@@ -38,8 +67,8 @@ awful.keyboard.append_global_keybindings(ez.keytable {
     ["M-e"] = {launch.spawn.viewport, unpack(ws.clients.editor)},
     ["M-grave"] = {panel.toggle, "kitty", {id="terminal", scale=0.6}},
     ["M-Tab"] = awful.tag.history.restore,
-    ["M-S-j"] = awful.tag.viewnext,
-    ["M-S-k"] = awful.tag.viewprev,
+    ["M-S-j"] = {next_or_new, 1},
+    ["M-S-k"] = {next_or_new, -1},
     ["M-f"] = dovetail.focus.other,
     ["M-j"] = {focus_byidx, 1},
     ["M-k"] = {focus_byidx, -1},
@@ -65,25 +94,6 @@ awful.keyboard.append_global_keybindings(ez.keytable {
     ["Print"] = screenshot.take,
     ["S-Print"] = {screenshot.take, true},
 })
-
-local function with_tag(func)
-    return function (i)
-        local s = awful.screen.focused()
-        local t = s.tags[i]
-        if not t then
-            local p = s.tags[i - 1]
-            if i > #s.tags + 1
-                or p and p.name == "scratch" and #p:clients() == 0 then
-                return
-            else
-                t = ws.new("scratch", {props={
-                    layout = awful.layout.layouts[1],
-                }})
-            end
-        end
-        func(t)
-    end
-end
 
 awful.keyboard.append_global_keybindings(ez.keytable {
     ["M-<numrow>"] = with_tag(function (t)
