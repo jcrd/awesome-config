@@ -15,14 +15,14 @@ local function uninhibit(c)
     end
 end
 
-local function toggle_inhibit(class, name)
+local function toggle_inhibit(class, names)
     return function (c)
-        if c.active and string.find(c.name, name) == 1 then
-            if not c.inhibit_id then
+        uninhibit(c)
+        for _, name in ipairs(names) do
+            if c.active and string.find(c.name, name) == 1 then
                 c.inhibit_id = session.inhibit(class, name)
+                break
             end
-        else
-            uninhibit(c)
         end
     end
 end
@@ -52,20 +52,18 @@ ruled.client.connect_signal("request::rules", function ()
     }
 
     for class, names in pairs(inhibitors) do
-        for _, name in ipairs(names) do
-            ruled.client.append_rule {
-                id = string.format("%s %s inhibitor", class, name),
-                rule = {class = class},
-                callback = function (c)
-                    local t = toggle_inhibit(class, name)
-                    c:connect_signal("property::name", t)
-                    c:connect_signal("property::active", t)
-                    c:connect_signal("property::valid", function ()
-                        if not c.valid then uninhibit(c) end
-                    end)
-                end,
-            }
-        end
+        ruled.client.append_rule {
+            id = string.format("%s inhibitor", class),
+            rule = {class = class},
+            callback = function (c)
+                c.toggle_inhibit = toggle_inhibit(class, names)
+                c:connect_signal("property::name", c.toggle_inhibit)
+                c:connect_signal("property::active", c.toggle_inhibit)
+                c:connect_signal("property::valid", function ()
+                    if not c.valid then uninhibit(c) end
+                end)
+            end,
+        }
     end
 end)
 
