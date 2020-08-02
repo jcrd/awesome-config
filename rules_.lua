@@ -17,12 +17,17 @@ end
 
 local function toggle_inhibit(class, names)
     return function (c)
-        uninhibit(c)
+        local found
         for _, name in ipairs(names) do
-            if c.active and string.find(c.name, name) == 1 then
+            if not c.inhibit_id and c.active
+                and string.find(c.name, name) == 1 then
                 c.inhibit_id = session.inhibit(class, name)
+                found = true
                 break
             end
+        end
+        if not found then
+            uninhibit(c)
         end
     end
 end
