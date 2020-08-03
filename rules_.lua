@@ -33,6 +33,12 @@ ruled.client.connect_signal("request::rules", function ()
         rule = {class = "Chromium-freeworld"},
         callback = inhibit.callback("chromium", "Netflix", "YouTube"),
     }
+
+    ruled.client.append_rule {
+        id = "mpv inhibitor",
+        rule = {class = "mpv"},
+        callback = inhibit.callback("mpv"),
+    }
 end)
 
 ruled.notification.connect_signal("request::rules", function ()
