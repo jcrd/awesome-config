@@ -1,4 +1,5 @@
 local awful = require("awful")
+local gears = require("gears")
 
 local ws = require("awesome-launch.workspace")
 
@@ -19,7 +20,11 @@ local function terminal(args)
     return {
         string.format("kitty %s", args or ''),
         {
-            callback = common.setmaster,
+            callback = function (c)
+                gears.timer.delayed_call(function ()
+                    common.setmaster(c)
+                end)
+            end,
         },
     }
 end
