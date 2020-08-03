@@ -122,7 +122,7 @@ screen.connect_signal("request::desktop_decoration", function (s)
             layout = wibox.layout.fixed.horizontal,
         },
         layout = wibox.container.constraint,
-        width = s.geometry.width / 1.5,
+        width = s.geometry.width / 2,
     }
 
     s.mywibox = awful.wibar {
