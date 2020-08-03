@@ -130,7 +130,12 @@ client.connect_signal("request::default_keybindings", function ()
         ["M-t"] = function (c)
             c.floating = not c.floating
         end,
-        ["M-s"] = common.setmaster,
+        ["M-s"] = function (c)
+            if not dovetail.layout() then
+                awful.layout.set(awful.layout.layouts[1], viewport())
+            end
+            common.setmaster(c)
+        end,
         -- Normalize client.
         ["M-n"] = function (c)
             c.floating = false
