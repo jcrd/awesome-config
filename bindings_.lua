@@ -36,11 +36,10 @@ local function with_tag(func)
             if i > #s.tags + 1
                 or p and p.name == "scratch" and #p:clients() == 0 then
                 return
-            else
-                t = ws.new("scratch", {props={
-                    layout = awful.layout.layouts[1],
-                }})
             end
+            t = ws.new("scratch", {props={
+                layout = awful.layout.layouts[1],
+            }})
         end
         func(t)
     end
