@@ -130,9 +130,7 @@ client.connect_signal("request::default_keybindings", function ()
         ["M-t"] = function (c)
             c.floating = not c.floating
         end,
-        ["M-s"] = function (c)
-            awful.client.setmaster(c)
-        end,
+        ["M-s"] = common.setmaster,
         -- Normalize client.
         ["M-n"] = function (c)
             c.floating = false
