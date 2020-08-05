@@ -29,6 +29,10 @@ local function update_muted(m)
     widget.id_icon.markup = format_icon(audio.widget.icons[m or sink:is_muted()])
 end
 
+local function update()
+    update_volume()
+    update_muted()
+end
 
 local function connect_device(dev)
     if not dev then return end
@@ -77,7 +81,7 @@ local function connect()
         core:connect_signal(
             function (_, s)
                 connect_device(update_sink(s))
-                audio.update()
+                update()
             end, "NewSink")
 
         connect_device(update_sink())
@@ -113,8 +117,7 @@ function audio.widget.volumebar()
         }
         gears.timer.delayed_call(function ()
             connect()
-            update_volume()
-            update_muted()
+            update()
         end)
     end
     return widget
