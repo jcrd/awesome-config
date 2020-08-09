@@ -1,3 +1,5 @@
+print("--- loading rc.lua ---")
+
 if not pcall(require, "luarocks.loader") then
     local d = string.format(';%s/.luarocks/share/lua/5.3', os.getenv('HOME'))
     package.path = package.path..d..'/?.lua'..d..'/?/init.lua'
