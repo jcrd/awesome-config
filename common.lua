@@ -20,7 +20,7 @@ local function terminal(args)
     return {
         string.format("kitty %s", args or ''),
         {
-            callback = function (c)
+            raise_callback = function (c)
                 gears.timer.delayed_call(function ()
                     common.setmaster(c)
                 end)
