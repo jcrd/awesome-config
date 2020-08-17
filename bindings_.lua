@@ -30,25 +30,29 @@ end
 local function with_tag(func)
     return function (i)
         local s = awful.screen.focused()
+        if i > #s.tags + 1 then
+            return
+        end
         local t = s.tags[i]
         if not t then
             local p = s.tags[i - 1]
-            if i > #s.tags + 1
-                or p and p.name == "scratch" and #p:clients() == 0 then
-                return
+            if p and p.name == "scratch" and #p:clients() == 0 then
+                t = s.tags[1]
+            else
+                t = ws.new("scratch", {props={
+                    layout = awful.layout.layouts[1],
+                }})
             end
-            t = ws.new("scratch", {props={
-                layout = awful.layout.layouts[1],
-            }})
         end
         func(t)
     end
 end
 
 local function next_or_new(i)
-    i = viewport().index + i
+    local v = viewport()
+    i = v.index + i
     if i < 1 then
-        return
+        i = #v.screen.tags + 1
     end
     with_tag(function (t)
         t:view_only()
