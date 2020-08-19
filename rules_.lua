@@ -18,17 +18,6 @@ ruled.client.connect_signal("request::rules", function ()
     }
 
     ruled.client.append_rule {
-        id = "floating",
-        rule_any = {
-            class = {
-                "Pinentry",
-                "Lxappearance",
-            },
-        },
-        properties = {floating = true},
-    }
-
-    ruled.client.append_rule {
         id = "chromium inhibitor",
         rule = {class = "Chromium-freeworld"},
         callback = inhibit.callback("chromium", "Netflix", "YouTube"),
