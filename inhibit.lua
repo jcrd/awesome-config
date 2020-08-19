@@ -43,11 +43,7 @@ function inhibit.callback(class, ...)
             c:connect_signal("property::name", c.toggle_inhibit)
         end
         c:connect_signal("property::active", c.toggle_inhibit)
-        c:connect_signal("property::valid", function ()
-            if not c.valid then
-                uninhibit(c)
-            end
-        end)
+        c:connect_signal("request::unmanage", uninhibit)
     end
 end
 
