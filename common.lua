@@ -20,6 +20,7 @@ local function terminal(args)
     return {
         string.format("kitty %s", args or ''),
         {
+            systemd = true,
             raise_callback = function (c)
                 gears.timer.delayed_call(function ()
                     common.setmaster(c)
@@ -30,8 +31,10 @@ local function terminal(args)
 end
 
 ws.clients = {
-    browser = {"qutebrowser --target window", {factory="qutebrowser", timeout=3}},
-    chromium = {"chromium-freeworld", {factory="chromium", timeout=3}},
+    browser = {"qutebrowser --target window",
+        {factory="qutebrowser", systemd=true, timeout=3}},
+    chromium = {"chromium-freeworld",
+        {factory="chromium", systemd=true, timeout=3}},
     editor = terminal("vim"),
     term = terminal(),
 }
