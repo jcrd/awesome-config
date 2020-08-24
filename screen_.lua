@@ -9,12 +9,11 @@ local viewport = require("awesome-viewport")
 
 local audio = require("audio")
 local common = require("common")
-local globalhooks = require("globalhooks")
 
 local myclock = wibox.widget.textclock(
     "<span size=\"smaller\" rise=\"1000\"></span> %a, %b %e  %l:%M%P")
 
-globalhooks:add("refresh", function () myclock:force_update() end)
+common.hooks:add("refresh", function () myclock:force_update() end)
 
 launch.widget.color = beautiful.color8
 launch.widget.border_color = beautiful.fg_normal
