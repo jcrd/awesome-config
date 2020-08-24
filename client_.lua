@@ -1,6 +1,34 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
+local gears = require("gears")
 local wibox = require("wibox")
+
+local ws = require("awesome-launch.workspace")
+
+local common = require("common")
+
+local function terminal(args)
+    return {
+        string.format("kitty %s", args or ''),
+        {
+            systemd = true,
+            raise_callback = function (c)
+                gears.timer.delayed_call(function ()
+                    common.setmaster(c)
+                end)
+            end,
+        },
+    }
+end
+
+ws.clients = {
+    browser = {"qutebrowser --target window",
+        {factory="qutebrowser", systemd=true, timeout=3}},
+    chromium = {"chromium-freeworld",
+        {factory="chromium", systemd=true, timeout=3}},
+    editor = terminal("vim"),
+    term = terminal(),
+}
 
 client.connect_signal("property::floating", function (c)
     if c.floating then
