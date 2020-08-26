@@ -1,5 +1,7 @@
 local gtable = require("gears.table")
 
+local log = require("log")
+
 local hooks = {}
 
 hooks.__index = hooks
@@ -26,7 +28,7 @@ function hooks:run(name, data)
         fs = self[name]
     end
     if fs then
-        print(string.format("HOOKS.RUN: %s (%d)", name, #fs))
+        log.debug('hooks:run: %s (%d)', name, #fs)
         for _, f in ipairs(fs) do f(data) end
     end
 end

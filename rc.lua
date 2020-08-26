@@ -1,4 +1,6 @@
-print("--- loading rc.lua ---")
+local log = require("log")
+
+log.debug('starting...')
 
 if not pcall(require, "luarocks.loader") then
     local d = string.format(';%s/.luarocks/share/lua/5.3', os.getenv('HOME'))
@@ -23,7 +25,7 @@ require("client_")
 require("bindings_")
 
 awesome.connect_signal("startup", function ()
-    print("--- startup ---")
+    log.debug('started')
     common.hide_mouse()
 end)
 
