@@ -1,4 +1,4 @@
-local log = require("log")
+local log = require("lib.log")
 
 log.debug('starting...')
 
@@ -10,11 +10,15 @@ end
 local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
+local gfs = require("gears.filesystem")
 require("awful.autofocus")
 require("awful.remote")
 
 beautiful.init(awful.util.get_configuration_dir()
     .. "themes/papercolor/theme.lua")
+
+
+package.path = package.path..string.format(';%s/lib/?.lua', gfs.get_configuration_dir())
 
 local session = require("sessiond_dbus")
 
