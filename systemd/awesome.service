@@ -1,0 +1,14 @@
+[Unit]
+Description=Awesome window manager
+Requires=sessiond-session.target
+After=sessiond.service
+Wants=upower.service
+After=upower.service
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/awesome -s %E/awesome/lua_modules -s %E/awesome/src
+Restart=always
+
+[Install]
+Alias=window-manager.service

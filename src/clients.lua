@@ -1,0 +1,126 @@
+local awful = require('awful')
+local beautiful = require('beautiful')
+local ruled = require('ruled')
+
+require('awful.autofocus')
+
+local ez = require('awesome-ez')
+
+local config = require('config')
+local inhibit = require('inhibit')
+local tags = require('tags')
+
+local options = config.options
+
+local function inhibitor_who(rule)
+    if rule.who then
+        return rule.who
+    end
+    local who
+    for _, v in pairs(rule) do
+        if who then
+            break
+        end
+        if type(v) == 'table' then
+            for k, n in pairs(v) do
+                if k == 'class' or k == 'instance' then
+                    who = n
+                    break
+                end
+            end
+        end
+    end
+    return who or 'unknown'
+end
+
+local scanning_rule = {
+    rule = {},
+    callback = function (c)
+        if not c.self_tag_name then
+            return
+        end
+        local t = tags.get(c.self_tag_name)
+        c:tags({t})
+    end,
+}
+
+client.connect_signal('scanning', function ()
+    ruled.client.append_rule(scanning_rule)
+end)
+
+client.connect_signal('scanned', function ()
+    ruled.client.remove_rule(scanning_rule)
+end)
+
+client.connect_signal('request::default_keybindings', function ()
+    awful.keyboard.append_client_keybindings(ez.keytable(config.keys.client))
+end)
+
+client.connect_signal('request::default_mousebindings', function ()
+    awful.mouse.append_client_mousebindings(ez.btntable(config.buttons.client))
+end)
+
+client.connect_signal('manage', function (c)
+    if awesome.startup then
+        if not c.size_hints.user_position
+            and not c.size_hints.program_position then
+            awful.placement.no_offscreen(c)
+        end
+    end
+end)
+
+client.connect_signal('focus', function (c)
+    c.border_color = beautiful.border_focus
+    if c.floating then c:raise() end
+end)
+
+client.connect_signal('unfocus', function (c)
+    c.border_color = beautiful.border_normal
+end)
+
+client.connect_signal('property::floating', function (c)
+    if c.floating then
+        awful.placement.centered(c)
+        c:raise()
+    end
+end)
+
+if not options.clients.allow_maximized then
+    local props = {
+        'maximized',
+        'maximized_vertical',
+        'maximized_horizontal',
+    }
+
+    for _, prop in ipairs(props) do
+        client.connect_signal('property::'..prop, function (c)
+            if c[prop] then
+                c[prop] = false
+            end
+        end)
+    end
+end
+
+ruled.client.connect_signal('request::rules', function ()
+    ruled.client.append_rule {
+        id = 'global',
+        rule = {},
+        properties = {
+            focus = awful.client.focus.filter,
+            raise = true,
+            screen = awful.screen.preferred,
+            placement = awful.placement.no_offscreen,
+        },
+    }
+
+    for _, r in ipairs(config.rules) do
+        if r.inhibit then
+            local t = type(r.inhibit)
+            r.callback = inhibit.callback(inhibitor_who(r),
+                (t == 'string' or t == 'table') and r.inhibit)
+            r.inhibit = nil
+            r.who = nil
+        end
+        ruled.client.append_rule(r)
+    end
+end)

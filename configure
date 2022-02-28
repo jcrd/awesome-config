@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Link window-manager.service alias to awesome.service
+# in ~/.config/systemd/user
+ln -sfv "$PWD"/systemd/awesome.service ~/.config/systemd/user
+ln -snfv ~/.config/systemd/user/awesome.service \
+    ~/.config/systemd/user/window-manager.service
