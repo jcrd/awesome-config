@@ -6,10 +6,10 @@ local font = {
 }
 
 local colors = {
-    fg = '#6a6a6a',
+    fg = '#444444',
     bg = '#fafafa',
-    bg_alt = '#bebebe',
-    focus = '#118dc3',
+    bg_alt = '#bcbcbc',
+    focus = '#005faf',
 }
 
 return {
