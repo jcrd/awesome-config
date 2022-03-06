@@ -1,5 +1,7 @@
 #!/bin/sh
 
+git submodule update --init src/widgets
+
 # Link window-manager.service alias to awesome.service
 # in ~/.config/systemd/user
 ln -sfv "$PWD"/systemd/awesome.service ~/.config/systemd/user
