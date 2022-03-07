@@ -19,6 +19,10 @@ c.tags = {
         cmd = 'kitty',
         rule = { instance = 'kitty' },
     },
+    notion = {
+        cmd = 'notion-app-enhanced',
+        rule = { instance = 'notion-app-enhanced' },
+    },
 }
 
 c.keys = {
@@ -40,6 +44,7 @@ c.keys = {
         ['M-d'] = {cmds.tag.view_toggle, 'editor'},
         ['M-w'] = {cmds.tag.view_toggle, 'browser'},
         ['M-s'] = {cmds.tag.view_toggle, 'terminal'},
+        ['M-a'] = {cmds.tag.view_toggle, 'notion'},
 
         -- Controls.
         ['M-Up'] = {cmds.backlight.inc, 10, is_laptop or 'ddcutil setvcp 10 + %d'},
