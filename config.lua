@@ -12,8 +12,8 @@ c.tags = {
         rule = { instance = 'code' },
     },
     browser = {
-        cmd = 'chromium-freeworld',
-        rule = { instance = 'chromium-freeworld' },
+        cmd = 'firefox',
+        rule = { class = 'Firefox' },
     },
     terminal = {
         cmd = 'kitty',
