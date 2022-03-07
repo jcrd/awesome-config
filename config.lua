@@ -36,6 +36,7 @@ c.keys = {
         ['M-backslash'] = awful.tag.viewnone,
 
         -- Spawn.
+        ['M-p'] = {awful.spawn, 'passless-rofi'},
         ['M-d'] = {cmds.tag.view_toggle, 'editor'},
         ['M-w'] = {cmds.tag.view_toggle, 'browser'},
         ['M-s'] = {cmds.tag.view_toggle, 'terminal'},
