@@ -32,7 +32,18 @@ end
 
 cmds.tag = {}
 
-cmds.tag.view_toggle = with_tag(awful.tag.viewtoggle)
+function cmds.tag.view_focus(t)
+    awful.tag.viewtoggle(t)
+
+    for _, c in ipairs(t:clients()) do
+        if c.self_tag_name then
+            c:activate { raise = true, context = 'view_focus' }
+            return
+        end
+    end
+end
+
+cmds.tag.view_toggle = with_tag(cmds.tag.view_focus)
 cmds.tag.view_only = with_tag(function (t) t:view_only() end)
 
 cmds.backlight = {}

@@ -74,7 +74,7 @@ c.buttons = {
         ['M-3'] = function (cl) cl:activate { context = 'mouse_click', action = 'mouse_resize' } end,
     },
     taglist = {
-        ['1'] = awful.tag.viewtoggle,
+        ['1'] = cmds.tag.view_focus,
         ['M-1'] = function (t) t:view_only() end,
     },
 }
