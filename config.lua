@@ -1,5 +1,7 @@
 local awful = require('awful')
 
+local session = require('sessiond_dbus')
+
 local cmds = require('cmds')
 local audio = require('widgets.audio')
 
@@ -60,6 +62,7 @@ c.keys = {
         ['M-C-r'] = awesome.restart,
         ['M-C-q'] = awesome.quit,
 
+        ['M-Scroll_Lock'] = session.lock,
         ['M-Pause'] = {awful.spawn, 'systemctl suspend'},
     },
     client = {
