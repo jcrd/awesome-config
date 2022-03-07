@@ -30,18 +30,43 @@ local function with_tag(func)
     end
 end
 
-cmds.tag = {}
+local function has_focused_client(t)
+    for _, c in ipairs(t:clients()) do
+        if c == client.focus then
+            return true
+        end
+    end
+    return false
+end
 
-function cmds.tag.view_focus(t)
-    awful.tag.viewtoggle(t)
-
+local function focus_client(t, ctx)
     for _, c in ipairs(t:clients()) do
         if c.self_tag_name then
-            c:activate { raise = true, context = 'view_focus' }
+            c:activate { raise = true, context = ctx or 'focus_client' }
             return
         end
     end
 end
+
+cmds.tag = {}
+
+function cmds.tag.view_focus(t)
+    awful.tag.viewtoggle(t)
+    focus_client(t, 'view_focus')
+end
+
+cmds.tag.view_smart = with_tag(function (t)
+    if not t.selected then
+        cmds.tag.view_focus(t)
+        return
+    end
+
+    if has_focused_client(t) then
+        awful.tag.viewtoggle(t)
+    else
+        focus_client(t, 'view_smart')
+    end
+end)
 
 cmds.tag.view_toggle = with_tag(cmds.tag.view_focus)
 cmds.tag.view_only = with_tag(function (t) t:view_only() end)

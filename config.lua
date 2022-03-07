@@ -43,10 +43,10 @@ c.keys = {
 
         -- Spawn.
         ['M-p'] = {awful.spawn, 'passless-rofi'},
-        ['M-d'] = {cmds.tag.view_toggle, 'editor'},
-        ['M-w'] = {cmds.tag.view_toggle, 'browser'},
-        ['M-s'] = {cmds.tag.view_toggle, 'terminal'},
-        ['M-a'] = {cmds.tag.view_toggle, 'notion'},
+        ['M-d'] = {cmds.tag.view_smart, 'editor'},
+        ['M-w'] = {cmds.tag.view_smart, 'browser'},
+        ['M-s'] = {cmds.tag.view_smart, 'terminal'},
+        ['M-a'] = {cmds.tag.view_smart, 'notion'},
 
         -- Controls.
         ['M-Up'] = {cmds.backlight.inc, 10, is_laptop or 'ddcutil setvcp 10 + %d'},
