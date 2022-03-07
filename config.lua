@@ -8,8 +8,8 @@ local is_laptop = os.getenv('CHASSIS') == 'laptop'
 
 c.tags = {
     editor = {
-        cmd = 'codium',
-        rule = { instance = 'vscodium' },
+        cmd = 'code',
+        rule = { instance = 'code' },
     },
     browser = {
         cmd = 'chromium-freeworld',
