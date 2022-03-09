@@ -1,9 +1,13 @@
 local awful = require('awful')
 local gears = require('gears')
 local ruled = require('ruled')
+
 local log = require('log')
+local util = require('util')
 
 local tags = {}
+
+tags.rules = {}
 
 awful.client.property.persist('self_tag_name', 'string')
 
@@ -11,9 +15,14 @@ local function tagbyname(n, s)
     s = s or awful.screen.focused()
     for _, t in ipairs(s.tags) do
         if t.name == n then
-            return t
+            return t, false
         end
     end
+    return awful.tag.add(n, {
+        screen = s,
+        layout = awful.layout.layouts[1],
+        volatile = true,
+    }), true
 end
 
 tag.connect_signal('request::default_layouts', function ()
@@ -24,51 +33,30 @@ tag.connect_signal('request::default_layouts', function ()
     }
 end)
 
-local pending_rules = {}
-
-ruled.client.add_rule_source('spawn_rule_source', function (c, props)
-    for name, data in pairs(pending_rules) do
-        if ruled.client.match(c, data.client.rule) then
+ruled.client.add_rule_source('tag_rule_source', function (c, props, cbs)
+    for name, data in pairs(tags.rules) do
+        if ruled.client.match(c, data.rule) then
             log.debug('[tags] Matched client: %s, %s', c.class, c.instance)
-            gears.table.crush(props, data.client.properties)
-            data.timer:stop()
-            pending_rules[name] = nil
+            local t, new = tagbyname(name)
+            gears.table.crush(props, {
+                tag = t,
+                self_tag_name = name,
+            })
+            if new then
+                table.insert(cbs, function ()
+                    util.tag.view_focus(t)
+                end)
+            end
             return
         end
     end
 end)
 
-function tags.get(name, client, s)
-    local t = tagbyname(name, s)
-    if not t then
-        t = awful.tag.add(name, {
-            screen = s or awful.screen.focused(),
-            layout = awful.layout.layouts[1],
-            volatile = true,
-        })
-        if client then
-            local data = {}
-
-            client.properties = client.properties or {}
-            client.properties.tag = t
-            client.properties.self_tag_name = name
-
-            data.client = client
-            data.timer = gears.timer {
-                timeout = 5,
-                callback = function ()
-                    if pending_rules[name] then
-                        pending_rules[name] = nil
-                    end
-                end,
-            }
-
-            pending_rules[name] = data
-            data.timer:start()
-
-            log.debug('[tags] Spawning client: %s', client.cmd)
-            awful.spawn(client.cmd)
-        end
+function tags.get(name, cmd, s)
+    local t, new = tagbyname(name, s)
+    if new and cmd then
+        log.debug('[tags] Spawning client: %s', cmd)
+        awful.spawn(cmd)
     end
     return t
 end

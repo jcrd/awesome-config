@@ -16,7 +16,7 @@ require('cmds').config = config
 
 awful.keyboard.append_global_keybindings(ez.keytable(config.keys.global))
 
-require('tags')
+require('tags').rules = config.tags
 require('screens')
 require('clients')
 require('notifs')
