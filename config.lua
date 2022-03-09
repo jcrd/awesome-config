@@ -43,6 +43,7 @@ c.keys = {
 
         -- Spawn.
         ['M-p'] = {awful.spawn, 'passless-rofi'},
+        ['M-l'] = {awful.spawn, 'rofi -show run'},
         ['M-d'] = {cmds.tag.view_smart, 'editor'},
         ['M-w'] = {cmds.tag.view_smart, 'browser'},
         ['M-s'] = {cmds.tag.view_smart, 'terminal'},
