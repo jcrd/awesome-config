@@ -1,6 +1,7 @@
 local awful = require('awful')
 local beautiful = require('beautiful')
 local ruled = require('ruled')
+local wibox = require('wibox')
 
 require('awful.autofocus')
 
@@ -101,6 +102,27 @@ if not options.clients.allow_maximized then
     end
 end
 
+client.connect_signal('request::titlebars', function (c)
+    local btns = ez.btntable(config.buttons.titlebar(c))
+
+    awful.titlebar(c).widget = {
+        {
+            awful.titlebar.widget.iconwidget(c),
+            buttons = btns,
+            layout = wibox.layout.fixed.horizontal,
+        },
+        {
+            {
+                align = 'center',
+                widget = awful.titlebar.widget.titlewidget(c),
+            },
+            buttons = btns,
+            layout = wibox.layout.flex.horizontal,
+        },
+        layout = wibox.layout.align.horizontal,
+    }
+end)
+
 ruled.client.connect_signal('request::rules', function ()
     ruled.client.append_rule {
         id = 'global',
@@ -111,6 +133,12 @@ ruled.client.connect_signal('request::rules', function ()
             screen = awful.screen.preferred,
             placement = awful.placement.no_offscreen,
         },
+    }
+
+    ruled.client.append_rule {
+        id = 'titlebars',
+        rule_any = { type = { 'normal', 'dialog' } },
+        properties = { titlebars_enabled = true },
     }
 
     for _, r in ipairs(config.rules) do
