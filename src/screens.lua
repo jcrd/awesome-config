@@ -44,7 +44,7 @@ for _, name in ipairs(config.widgets) do
     elseif name == 'pomodoro' then
         local pomo = require('widgets.pomodoro')
         pomo.init {
-            path = awful.util.get_configuration_dir()..'widgets',
+            path = awful.util.get_configuration_dir()..'src/widgets',
             config = config.options.pomodoro,
         }
         w = pomo.widget.timer()
