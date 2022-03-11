@@ -2,11 +2,13 @@ local awful = require('awful')
 local beautiful = require('beautiful')
 local ruled = require('ruled')
 local wibox = require('wibox')
+local dpi = require('beautiful.xresources').apply_dpi
 
 require('awful.autofocus')
 
 local ez = require('awesome-ez')
 
+local buttons = require('buttons')
 local config = require('config')
 local inhibit = require('inhibit')
 local tags = require('tags')
@@ -118,6 +120,17 @@ client.connect_signal('request::titlebars', function (c)
             },
             buttons = btns,
             layout = wibox.layout.flex.horizontal,
+        },
+        {
+            {
+                buttons.magnify(c),
+                buttons.max(c),
+                buttons.close(c),
+                layout = wibox.layout.fixed.horizontal,
+                spacing = dpi(14),
+            },
+            widget = wibox.container.margin,
+            right = dpi(6),
         },
         layout = wibox.layout.align.horizontal,
     }

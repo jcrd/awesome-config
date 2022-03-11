@@ -71,6 +71,7 @@ table.insert(info, {
 -- end
 
 screen.connect_signal('request::desktop_decoration', function (s)
+    s.mylayouts = {}
 
     s.mytaglist = awful.widget.taglist {
         screen  = s,

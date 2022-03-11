@@ -33,6 +33,12 @@ tag.connect_signal('request::default_layouts', function ()
     }
 end)
 
+tag.connect_signal('property::layout', function (t)
+    local lo = t.screen.mylayouts
+    lo[2] = lo[1]
+    lo[1] = t.layout
+end)
+
 ruled.client.add_rule_source('tag_rule_source', function (c, props, cbs)
     for name, data in pairs(tags.rules) do
         if ruled.client.match(c, data.rule) then
