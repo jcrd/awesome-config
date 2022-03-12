@@ -4,6 +4,7 @@ local util = {}
 
 util.tag = {}
 util.layout = {}
+util.client = {}
 
 function util.tag.byname(n, s)
     for _, t in ipairs(s.tags) do
@@ -37,6 +38,14 @@ function util.layout.toggle(lo, s, restore)
         end
     end
     awful.layout.set(lo)
+end
+
+function util.client.make_panel(c)
+    c.self_panel = true
+    c.floating = true
+    c.skip_taskbar = true
+    awful.placement.scale(c, { to_percent = 0.5 })
+    awful.placement.centered(c)
 end
 
 return util

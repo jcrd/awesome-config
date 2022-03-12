@@ -12,8 +12,12 @@ local buttons = require('buttons')
 local config = require('config')
 local inhibit = require('inhibit')
 local tags = require('tags')
+local util= require('util')
 
 local options = config.options
+
+awful.client.property.persist('self_tag_name', 'string')
+awful.client.property.persist('self_panel', 'boolean')
 
 local function inhibitor_who(rule)
     if rule.who then
@@ -39,11 +43,13 @@ end
 local scanning_rule = {
     rule = {},
     callback = function (c)
-        if not c.self_tag_name then
-            return
+        if c.self_tag_name then
+            local t = tags.get(c.self_tag_name)
+            c:tags({t})
         end
-        local t = tags.get(c.self_tag_name)
-        c:tags({t})
+        if c.self_panel then
+            util.client.make_panel(c)
+        end
     end,
 }
 
@@ -79,6 +85,7 @@ end)
 
 client.connect_signal('unfocus', function (c)
     c.border_color = beautiful.border_normal
+    if c.floating then c:lower() end
 end)
 
 client.connect_signal('property::floating', function (c)

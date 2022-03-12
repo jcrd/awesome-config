@@ -24,7 +24,7 @@ local function with_tag(func)
         if not data then
             return
         end
-        local t = tags.get(name, data.cmd)
+        local t = tags.get(name, data)
         if t then
             func(t)
         end

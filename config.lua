@@ -9,6 +9,11 @@ local c = {}
 local is_laptop = os.getenv('CHASSIS') == 'laptop'
 
 c.tags = {
+    panel = {
+        cmd = 'kitty',
+        rule = { instance = 'kitty' },
+        panel = true,
+    },
     editor = {
         cmd = 'code',
         rule = { instance = 'code' },
@@ -44,6 +49,7 @@ c.keys = {
         -- Spawn.
         ['M-p'] = {awful.spawn, 'passless-rofi'},
         ['M-l'] = {awful.spawn, 'rofi -show run'},
+        ['M-grave'] = {cmds.tag.view_smart, 'panel'},
         ['M-d'] = {cmds.tag.view_smart, 'editor'},
         ['M-w'] = {cmds.tag.view_smart, 'browser'},
         ['M-s'] = {cmds.tag.view_smart, 'terminal'},
