@@ -20,11 +20,11 @@ return {
 
     master_width = 0.6,
 
-    useless_gap = 2,
+    useless_gap = dpi(2),
     gap_single_client = false,
 
-    border_width = 3,
-    notification_border_width = 1,
+    border_width = dpi(3),
+    notification_border_width = dpi(1),
 
     fg_normal = colors.fg,
     bg_normal = colors.bg,
