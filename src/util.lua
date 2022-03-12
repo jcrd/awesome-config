@@ -30,7 +30,7 @@ function util.tag.view_focus(t)
     end
 end
 
-function util.layout.toggle(lo, s, restore)
+function util.layout.toggle(lo, restore, s)
     s = s or awful.screen.focused()
     if lo == s.mylayouts[1] then
         if restore then

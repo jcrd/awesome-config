@@ -46,7 +46,11 @@ c.keys = {
         ['M-S-j'] = {awful.client.swap.byidx, 1},
         ['M-S-k'] = {awful.client.swap.byidx, -1},
         ['M-q'] = awful.client.focus.history.previous,
-        ['M-t'] = {awful.layout.inc, -1},
+
+        -- Layouts.
+        ['M-t'] = {util.layout.toggle, awful.layout.suit.tile, true},
+        ['M-f'] = {util.layout.toggle, awful.layout.suit.max, true},
+        ['M-g'] = {util.layout.toggle, awful.layout.suit.magnifier, true},
 
         -- Tags.
         ['M-Tab'] = awful.tag.history.restore,

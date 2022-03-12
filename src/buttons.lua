@@ -22,7 +22,7 @@ end
 function btns.max(c)
     return btn('', {
         awful.button({}, 1, function ()
-            util.layout.toggle(awful.layout.suit.max, c.screen, true)
+            util.layout.toggle(awful.layout.suit.max, true, c.screen)
         end),
     })
 end
@@ -30,7 +30,7 @@ end
 function btns.magnify(c)
     return btn('', {
         awful.button({}, 1, function ()
-            util.layout.toggle(awful.layout.suit.magnifier, c.screen, true)
+            util.layout.toggle(awful.layout.suit.magnifier, true, c.screen)
         end),
     })
 end
