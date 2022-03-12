@@ -1,5 +1,6 @@
 local awful = require('awful')
 local beautiful = require('beautiful')
+local gears = require('gears')
 local wibox = require('wibox')
 
 local ez = require('awesome-ez')
@@ -93,3 +94,9 @@ screen.connect_signal('request::desktop_decoration', function (s)
         },
     }
 end)
+
+if beautiful.desktop_wallpaper then
+    screen.connect_signal('request::wallpaper', function (s)
+        gears.wallpaper.set(beautiful.desktop_wallpaper)
+    end)
+end
