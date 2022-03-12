@@ -15,7 +15,7 @@ c.tags = {
     },
     browser = {
         cmd = 'firefox',
-        rule = { class = 'Firefox' },
+        rule = { class = 'firefox' },
     },
     terminal = {
         cmd = 'kitty',
