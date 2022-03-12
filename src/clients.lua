@@ -123,6 +123,7 @@ client.connect_signal('request::titlebars', function (c)
         },
         {
             {
+                buttons.hide(c),
                 buttons.magnify(c),
                 buttons.max(c),
                 buttons.close(c),

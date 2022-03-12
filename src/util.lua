@@ -5,6 +5,14 @@ local util = {}
 util.tag = {}
 util.layout = {}
 
+function util.tag.byname(n, s)
+    for _, t in ipairs(s.tags) do
+        if t.name == n then
+            return t
+        end
+    end
+end
+
 function util.tag.focus_client(t, ctx)
     for _, c in ipairs(t:clients()) do
         if c.self_tag_name then

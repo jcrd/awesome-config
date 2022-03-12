@@ -13,10 +13,9 @@ awful.client.property.persist('self_tag_name', 'string')
 
 local function tagbyname(n, s)
     s = s or awful.screen.focused()
-    for _, t in ipairs(s.tags) do
-        if t.name == n then
-            return t, false
-        end
+    local t = util.tag.byname(n, s)
+    if t then
+        return t, false
     end
     return awful.tag.add(n, {
         screen = s,
