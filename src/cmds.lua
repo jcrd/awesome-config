@@ -2,9 +2,6 @@ local awful = require('awful')
 
 local session = require('sessiond_dbus')
 
-local tags = require('tags')
-local util = require('util')
-
 local cmds = {}
 
 cmds.config = {}
@@ -17,48 +14,6 @@ local function backlight_cmd(func, v, cmd)
         bl[func](v)
     end
 end
-
-local function with_tag(func)
-    return function (name)
-        local data = cmds.config.tags[name]
-        if not data then
-            return
-        end
-        local t = tags.get(name, data)
-        if t then
-            func(t)
-        end
-    end
-end
-
-local function has_focused_client(t)
-    for _, c in ipairs(t:clients()) do
-        if c == client.focus then
-            return true
-        end
-    end
-    return false
-end
-
-cmds.tag = {}
-
-cmds.tag.view_focus = util.tag.view_focus
-
-cmds.tag.view_smart = with_tag(function (t)
-    if not t.selected then
-        cmds.tag.view_focus(t)
-        return
-    end
-
-    if has_focused_client(t) then
-        awful.tag.viewtoggle(t)
-    else
-        util.tag.focus_client(t, 'view_smart')
-    end
-end)
-
-cmds.tag.view_toggle = with_tag(util.tag.view_focus)
-cmds.tag.view_only = with_tag(function (t) t:view_only() end)
 
 cmds.backlight = {}
 

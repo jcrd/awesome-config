@@ -24,6 +24,43 @@ local function tagbyname(n, s)
     }), true
 end
 
+local function has_focused_client(t)
+    for _, c in ipairs(t:clients()) do
+        if c == client.focus then
+            return true
+        end
+    end
+    return false
+end
+
+local function with_tag(func)
+    return function (name)
+        local data = tags.rules[name]
+        if not data then
+            return
+        end
+        local t = tags.get(name, data)
+        if t then
+            func(t)
+        end
+    end
+end
+
+local view_smart = with_tag(function (t)
+    if not t.selected then
+        util.tag.view_focus(t)
+        return
+    end
+
+    if has_focused_client(t) then
+        awful.tag.viewtoggle(t)
+    else
+        util.tag.focus_client(t, 'view_smart')
+    end
+end)
+
+local view_only = with_tag(function (t) t:view_only() end)
+
 local function add_pending_rule(t, data)
     local n = t.name
 
@@ -101,6 +138,15 @@ function tags.get(name, data, s)
         awful.spawn(data.cmd)
     end
     return t
+end
+
+function tags.keybindings()
+    local ks = {}
+    for name, data in pairs(tags.rules) do
+        ks['M-'..data.key] = {view_smart, name}
+        ks['M-S-'..data.key] = {view_only, name}
+    end
+    return ks
 end
 
 return tags

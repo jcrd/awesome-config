@@ -14,11 +14,14 @@ require('widgets.audio').init {
 local config = require('config')
 require('cmds').config = config
 
-awful.keyboard.append_global_keybindings(ez.keytable(config.keys.global))
+local tags = require('tags')
+tags.rules = config.tags
 
-require('tags').rules = config.tags
 require('screens')
 require('clients')
 require('notifs')
+
+awful.keyboard.append_global_keybindings(ez.keytable(config.keys.global))
+awful.keyboard.append_global_keybindings(ez.keytable(tags.keybindings()))
 
 session.connect()

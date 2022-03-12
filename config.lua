@@ -4,29 +4,35 @@ local session = require('sessiond_dbus')
 
 local cmds = require('cmds')
 local audio = require('widgets.audio')
+local util = require('util')
 
 local c = {}
 local is_laptop = os.getenv('CHASSIS') == 'laptop'
 
 c.tags = {
     panel = {
+        key = 'grave',
         cmd = 'kitty',
         rule = { instance = 'kitty' },
         panel = true,
     },
     editor = {
+        key = 'd',
         cmd = 'code',
         rule = { instance = 'code' },
     },
     browser = {
+        key = 'w',
         cmd = 'firefox',
         rule = { class = 'firefox' },
     },
     terminal = {
+        key = 's',
         cmd = 'kitty',
         rule = { instance = 'kitty' },
     },
     notion = {
+        key = 'a',
         cmd = 'notion-app-enhanced',
         rule = { instance = 'notion-app-enhanced' },
     },
@@ -49,11 +55,6 @@ c.keys = {
         -- Spawn.
         ['M-p'] = {awful.spawn, 'passless-rofi'},
         ['M-l'] = {awful.spawn, 'rofi -show run'},
-        ['M-grave'] = {cmds.tag.view_smart, 'panel'},
-        ['M-d'] = {cmds.tag.view_smart, 'editor'},
-        ['M-w'] = {cmds.tag.view_smart, 'browser'},
-        ['M-s'] = {cmds.tag.view_smart, 'terminal'},
-        ['M-a'] = {cmds.tag.view_smart, 'notion'},
 
         -- Controls.
         ['M-Up'] = {cmds.backlight.inc, 10, is_laptop or 'ddcutil setvcp 10 + %d'},
@@ -90,7 +91,7 @@ c.buttons = {
         }
     end,
     taglist = {
-        ['1'] = cmds.tag.view_focus,
+        ['1'] = util.tag.view_focus,
         ['M-1'] = function (t) t:view_only() end,
     },
 }
