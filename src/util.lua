@@ -25,7 +25,9 @@ end
 
 function util.tag.view_focus(t)
     awful.tag.viewtoggle(t)
-    util.tag.focus_client(t, 'view_focus')
+    if t.selected then
+        util.tag.focus_client(t, 'view_focus')
+    end
 end
 
 function util.layout.toggle(lo, s, restore)
