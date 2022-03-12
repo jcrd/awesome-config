@@ -135,7 +135,7 @@ function tags.get(name, data, s)
     if new and data.cmd then
         add_pending_rule(t, data)
         log.debug('[tags] Spawning client: %s', data.cmd)
-        awful.spawn(data.cmd)
+        awful.spawn('systemd-run --user --scope '..data.cmd)
     end
     return t
 end
