@@ -76,7 +76,7 @@ screen.connect_signal('request::desktop_decoration', function (s)
 
     s.mytaglist = awful.widget.taglist {
         screen  = s,
-        filter  = awful.widget.taglist.filter.all,
+        filter  = function (t) return not t.panel end,
         buttons = ez.btntable(config.buttons.taglist),
     }
 

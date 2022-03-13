@@ -132,6 +132,7 @@ end)
 
 function tags.get(name, data, s)
     local t, new = tagbyname(name, s)
+    t.panel = data.panel
     if new and data.cmd then
         add_pending_rule(t, data)
         log.debug('[tags] Spawning client: %s', data.cmd)
