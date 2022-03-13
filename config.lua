@@ -4,6 +4,7 @@ local session = require('sessiond_dbus')
 
 local cmds = require('cmds')
 local audio = require('widgets.audio')
+local pomo = require('widgets.pomodoro')
 local util = require('util')
 
 local c = {}
@@ -76,6 +77,10 @@ c.keys = {
 
         ['M-Scroll_Lock'] = session.lock,
         ['M-Pause'] = {awful.spawn, 'systemctl suspend'},
+
+        -- Pomodoro.
+        ['M-1'] = pomo.toggle,
+        ['M-S-1'] = pomo.stop,
     },
     client = {
         ['M-BackSpace'] = function (cl) cl:kill() end,
@@ -118,9 +123,10 @@ c.options = {
     },
     pomodoro = {
         set_length = 4,
-        working = 25,
-        short_break = 5,
-        long_break = 20,
+        working = 25 * 60,
+        short_break = 5 * 60,
+        long_break = 20 * 60,
+        show_icon = true,
     },
 }
 
