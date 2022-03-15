@@ -6,6 +6,12 @@ util.tag = {}
 util.layout = {}
 util.client = {}
 
+function util.icon_markup(i, size, rise)
+    size = size or 'x-large'
+    rise = rise and string.format("rise='%d'", rise) or ''
+    return string.format("<span size='%s' %s>%s</span>", size, rise, i)
+end
+
 function util.tag.byname(n, s)
     for _, t in ipairs(s.tags) do
         if t.name == n then

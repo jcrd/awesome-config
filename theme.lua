@@ -38,6 +38,4 @@ return {
     border_focus = colors.focus,
 
     desktop_wallpaper = colors.bg,
-
-    clock_format = '<span size=\'smaller\' rise=\'1000\'></span> %a, %b %e  %l:%M%P',
 }

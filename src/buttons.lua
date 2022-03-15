@@ -8,7 +8,7 @@ local btns = {}
 local function btn(text, buttons)
     return wibox.widget {
         widget = wibox.widget.textbox,
-        text = text,
+        markup = util.icon_markup(text, 'xx-large'),
         buttons = buttons,
     }
 end

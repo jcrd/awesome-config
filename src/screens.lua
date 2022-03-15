@@ -8,8 +8,13 @@ local session = require('sessiond_dbus')
 
 local audio = require('widgets.audio')
 local config = require('config')
+local util = require('util')
 
-local clock_widget = wibox.widget.textclock(beautiful.clock_format)
+
+local clock_format = util.icon_markup('', nil, -1500)..' %a, %b %e '
+                   ..util.icon_markup('', nil, -2500)..' %l:%M%P'
+
+local clock_widget = wibox.widget.textclock(clock_format)
 
 session.connect_signal('PrepareForSleep', function (before)
     if not before then
@@ -19,12 +24,12 @@ end)
 
 local pomo_icon_widget = {
     widget = wibox.widget.textbox,
-    handler = function (w, a) w.text = a end,
+    handler = function (w, a) w.markup = a..' ' end,
     assets = {
-        stopped = '',
-        working = '',
-        short_break = '',
-        long_break = '',
+        stopped = util.icon_markup(''),
+        working = util.icon_markup(''),
+        short_break = util.icon_markup(''),
+        long_break = util.icon_markup(''),
     },
 }
 
@@ -44,6 +49,9 @@ local info = {
 for _, name in ipairs(config.widgets) do
     local w
     if name == 'audio' then
+        audio.widget.icon_markup = function (i)
+            return util.icon_markup(i, 'xx-large')
+        end
         w = audio.widget.volumebar()
     elseif name == 'battery' then
         if config.options.enable_battery_widget then
@@ -51,6 +59,7 @@ for _, name in ipairs(config.widgets) do
             batt.init {
                 upower_dbus = require('upower_dbus'),
             }
+            batt.widget.icon_markup = util.icon_markup
             w = batt.widget.time()
         end
     elseif name == 'pomodoro' then
