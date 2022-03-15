@@ -17,6 +17,17 @@ session.connect_signal('PrepareForSleep', function (before)
     end
 end)
 
+local pomo_icon_widget = {
+    widget = wibox.widget.textbox,
+    handler = function (w, a) w.text = a end,
+    assets = {
+        stopped = '',
+        working = '',
+        short_break = '',
+        long_break = '',
+    },
+}
+
 local function info_widget(w)
     return {
         w,
@@ -47,6 +58,7 @@ for _, name in ipairs(config.widgets) do
         pomo.init {
             path = awful.util.get_configuration_dir()..'src/widgets',
             config = config.options.pomodoro,
+            icon_widget = pomo_icon_widget,
         }
         w = pomo.widget.timer()
     end

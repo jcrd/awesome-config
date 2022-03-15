@@ -1,7 +1,7 @@
 local dpi = require('beautiful.xresources').apply_dpi
 
 local font = {
-    name = 'Hack',
+    name = 'Hack Nerd Font Mono',
     size = dpi(13),
 }
 
