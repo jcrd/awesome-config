@@ -65,8 +65,8 @@ c.keys = {
         ['M-Up'] = {cmds.backlight.inc, 10, is_laptop or 'ddcutil setvcp 10 + %d'},
         ['M-Down'] = {cmds.backlight.dec, 10, is_laptop or 'ddcutil setvcp 10 - %d'},
 
-        ['XF86AudioLowerVolume'] = {audio.dec_volume, 0.05},
-        ['XF86AudioRaiseVolume'] = {audio.inc_volume, 0.05},
+        ['XF86AudioLowerVolume'] = audio.dec_volume,
+        ['XF86AudioRaiseVolume'] = audio.inc_volume,
         ['XF86AudioMute'] = audio.toggle_mute,
 
         ['Print'] = function () cmds.screenshot(true) end,
