@@ -16,7 +16,7 @@ return {
     font = string.format('%s %dpx', font.name, font.size),
     font_size = font.size,
     info_margins = dpi(10),
-    wibar_height = dpi(20),
+    wibar_height = dpi(25),
 
     master_width = 0.6,
 
