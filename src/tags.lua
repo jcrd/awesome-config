@@ -11,7 +11,7 @@ tags.rules = {}
 
 local pending_rules = {}
 
-local function tagbyname(n, s)
+local function tagbyname(n, data, s)
     s = s or awful.screen.focused()
     local t = util.tag.byname(n, s)
     if t then
@@ -21,6 +21,7 @@ local function tagbyname(n, s)
         screen = s,
         layout = awful.layout.layouts[1],
         volatile = true,
+        icon_text = data.icon or '',
     }), true
 end
 
@@ -79,7 +80,7 @@ end
 
 local function handle_rule(name, data, pending, c, props, cbs)
     log.debug('[tags] Matched client: %s, %s', c.class, c.instance)
-    local t, new = tagbyname(name)
+    local t, new = tagbyname(name, data)
     gears.table.crush(props, {
         tag = t,
         self_tag_name = name,
@@ -131,7 +132,7 @@ ruled.client.add_rule_source('tag_rule_source', function (...)
 end)
 
 function tags.get(name, data, s)
-    local t, new = tagbyname(name, s)
+    local t, new = tagbyname(name, data, s)
     t.panel = data.panel
     if new and data.cmd then
         add_pending_rule(t, data)

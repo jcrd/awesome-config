@@ -2,6 +2,7 @@ local awful = require('awful')
 local beautiful = require('beautiful')
 local gears = require('gears')
 local wibox = require('wibox')
+local dpi = require('beautiful.xresources').apply_dpi
 
 local ez = require('awesome-ez')
 local session = require('sessiond_dbus')
@@ -83,14 +84,10 @@ table.insert(info, {
     bg = beautiful.bg_focus,
 })
 
--- local function index_markup(i)
---     i = i or #awful.screen.focused().tags + 1
---     return '<b> '..i..' </b>'
--- end
-
--- local function set_taglist_index(self, _, i)
---     self:get_children_by_id('index_role')[1].markup = index_markup(i)
--- end
+local function taglist_update(self, t)
+    local w = self:get_children_by_id('icon_bg_role')[1]
+    w.fg = t.selected and beautiful.fg_focus or beautiful.fg_normal
+end
 
 screen.connect_signal('request::desktop_decoration', function (s)
     s.mylayouts = {}
@@ -99,6 +96,43 @@ screen.connect_signal('request::desktop_decoration', function (s)
         screen  = s,
         filter  = function (t) return not t.panel end,
         buttons = ez.btntable(config.buttons.taglist),
+        widget_template = {
+            {
+                {
+                    {
+                        {
+                            {
+                                id = 'icon_text_role',
+                                widget = wibox.widget.textbox,
+                                forced_width = beautiful.font_size + dpi(2),
+                            },
+                            id = 'icon_bg_role',
+                            widget = wibox.container.background,
+                        },
+                        right = dpi(4),
+                        widget = wibox.container.margin,
+                    },
+                    {
+                            id = 'text_role',
+                            widget = wibox.widget.textbox,
+                    },
+                    layout = wibox.layout.fixed.horizontal,
+                },
+                left = dpi(6),
+                right = dpi(6),
+                widget = wibox.container.margin,
+            },
+            id = 'background_role',
+            widget = wibox.container.background,
+            create_callback = function (self, t)
+                if t.icon_text then
+                    local w = self:get_children_by_id('icon_text_role')[1]
+                    w.markup = util.icon_markup(t.icon_text, 'xx-large')
+                end
+                taglist_update(self, t)
+            end,
+            update_callback = taglist_update,
+        },
     }
 
     s.mywibar = awful.wibar {

@@ -18,21 +18,25 @@ c.tags = {
         panel = true,
     },
     editor = {
+        icon = '',
         key = 'd',
         cmd = 'code',
         rule = { instance = 'code' },
     },
     browser = {
+        icon = '',
         key = 'w',
         cmd = 'firefox',
         rule = { class = 'firefox' },
     },
     terminal = {
+        icon = '',
         key = 's',
         cmd = 'kitty',
         rule = { instance = 'kitty' },
     },
     notion = {
+        icon = '',
         key = 'a',
         cmd = 'notion-app-enhanced',
         rule = { instance = 'notion-app-enhanced' },
