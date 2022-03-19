@@ -59,9 +59,7 @@ c.keys = {
         ['M-q'] = awful.client.focus.history.previous,
 
         -- Layouts.
-        ['M-t'] = {util.layout.toggle, awful.layout.suit.tile, true},
-        ['M-f'] = {util.layout.toggle, awful.layout.suit.max, true},
-        ['M-g'] = {util.layout.toggle, awful.layout.suit.magnifier, true},
+        ['M-f'] = util.layout.toggle,
 
         -- Tags.
         ['M-Tab'] = awful.tag.history.restore,

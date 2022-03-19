@@ -19,19 +19,9 @@ function btns.close(c)
     })
 end
 
-function btns.max(c)
-    return btn('', {
-        awful.button({}, 1, function ()
-            util.layout.toggle(awful.layout.suit.max, true, c.screen)
-        end),
-    })
-end
-
-function btns.magnify(c)
-    return btn('', {
-        awful.button({}, 1, function ()
-            util.layout.toggle(awful.layout.suit.magnifier, true, c.screen)
-        end),
+function btns.toggle(c)
+    return btn('缾', {
+        awful.button({}, 1, function () util.layout.toggle(c.screen) end),
     })
 end
 

@@ -115,14 +115,7 @@ tag.connect_signal('request::default_layouts', function ()
     awful.layout.append_default_layouts {
         awful.layout.suit.tile,
         awful.layout.suit.max,
-        awful.layout.suit.magnifier,
     }
-end)
-
-tag.connect_signal('property::layout', function (t)
-    local lo = t.screen.mylayouts
-    lo[2] = lo[1]
-    lo[1] = t.layout
 end)
 
 ruled.client.add_rule_source('tag_rule_source', function (...)

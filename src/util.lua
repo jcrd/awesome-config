@@ -36,16 +36,8 @@ function util.tag.view_focus(t)
     end
 end
 
-function util.layout.toggle(lo, restore, s)
-    s = s or awful.screen.focused()
-    if lo == s.mylayouts[1] then
-        if restore then
-            lo = s.mylayouts[2]
-        else
-            lo = awful.layout.layouts[1]
-        end
-    end
-    awful.layout.set(lo)
+function util.layout.toggle(s)
+    awful.layout.inc(1, s or awful.screen.focused())
 end
 
 function util.client.make_panel(c)
