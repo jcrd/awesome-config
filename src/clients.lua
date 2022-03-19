@@ -116,8 +116,6 @@ client.connect_signal('request::titlebars', function (c)
 
     awful.titlebar(c).widget = {
         {
-            awful.titlebar.widget.iconwidget(c),
-            buttons = btns,
             layout = wibox.layout.fixed.horizontal,
         },
         {
