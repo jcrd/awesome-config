@@ -13,7 +13,7 @@ local util = require('util')
 
 
 local clock_format = util.icon_markup('', nil, -1500)..' %a, %b %e '
-                   ..util.icon_markup('', nil, -2500)..' %l:%M%P'
+                   ..util.icon_markup('', nil, -2500)..' %l:%M%P'
 
 local clock_widget = wibox.widget.textclock(clock_format)
 

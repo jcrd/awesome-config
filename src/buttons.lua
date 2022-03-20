@@ -14,13 +14,13 @@ local function btn(text, buttons)
 end
 
 function btns.close(c)
-    return btn('', {
+    return btn('窱', {
         awful.button({}, 1, function () c:kill() end),
     })
 end
 
 function btns.hide(c)
-    return btn('', {
+    return btn('絛', {
         awful.button({}, 1, function () util.client.hide(c) end)
     })
 end
