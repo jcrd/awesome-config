@@ -89,6 +89,7 @@ c.keys = {
     },
     client = {
         ['M-BackSpace'] = function (cl) cl:kill() end,
+        ['M-x'] = util.client.hide,
     },
 }
 

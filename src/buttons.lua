@@ -21,15 +21,7 @@ end
 
 function btns.hide(c)
     return btn('', {
-        awful.button({}, 1, function ()
-            if not c.self_tag_name then
-                return
-            end
-            local t = util.tag.byname(c.self_tag_name, c.screen)
-            if t then
-                awful.tag.viewtoggle(t)
-            end
-        end)
+        awful.button({}, 1, function () util.client.hide(c) end)
     })
 end
 

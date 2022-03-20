@@ -56,4 +56,14 @@ function util.client.make_panel(c)
     awful.placement.centered(c)
 end
 
+function util.client.hide(c)
+    if not c.self_tag_name then
+        return
+    end
+    local t = util.tag.byname(c.self_tag_name, c.screen)
+    if t then
+        awful.tag.viewtoggle(t)
+    end
+end
+
 return util
