@@ -1,5 +1,6 @@
 local awful = require('awful')
 local beautiful = require('beautiful')
+local gears = require('gears')
 local ruled = require('ruled')
 local wibox = require('wibox')
 local dpi = require('beautiful.xresources').apply_dpi
@@ -112,7 +113,29 @@ if not options.clients.allow_maximized then
 end
 
 client.connect_signal('request::titlebars', function (c)
-    local btns = ez.btntable(config.buttons.titlebar(c))
+    local click = false
+    local btns = {
+        awful.button({}, 1, function ()
+            if click then
+                click = false
+                util.tag.view_toggle(c.screen)
+            else
+                click = true
+                gears.timer {
+                    timeout = 0.33,
+                    autostart = true,
+                    single_shot = true,
+                    callback = function ()
+                        click = false
+                    end,
+                }
+                c:activate { context = 'titlebar', action = 'mouse_move' }
+            end
+        end),
+        awful.button({}, 3, function ()
+            c:activate { context = 'titlebar', action = 'mouse_resize' }
+        end),
+    }
 
     awful.titlebar(c).widget = {
         {

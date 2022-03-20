@@ -99,12 +99,6 @@ c.buttons = {
         ['M-1'] = function (cl) cl:activate { context = 'mouse_click', action = 'mouse_move' } end,
         ['M-3'] = function (cl) cl:activate { context = 'mouse_click', action = 'mouse_resize' } end,
     },
-    titlebar = function (cl)
-        return {
-            ['1'] = function () cl:activate { context = 'titlebar', action = 'mouse_move' } end,
-            ['3'] = function () cl:activate { context = 'titlebar', action = 'mouse_resize' } end,
-        }
-    end,
     taglist = {
         ['1'] = util.tag.view_focus,
         ['3'] = function (t) t:view_only() end,
