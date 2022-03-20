@@ -107,7 +107,7 @@ c.buttons = {
     end,
     taglist = {
         ['1'] = util.tag.view_focus,
-        ['M-1'] = function (t) t:view_only() end,
+        ['3'] = function (t) t:view_only() end,
     },
 }
 
