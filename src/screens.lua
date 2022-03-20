@@ -77,12 +77,7 @@ for _, name in ipairs(config.widgets) do
     end
 end
 
-table.insert(info, {
-    info_widget(clock_widget),
-    widget = wibox.container.background,
-    fg = beautiful.fg_focus,
-    bg = beautiful.bg_focus,
-})
+table.insert(info, info_widget(clock_widget))
 
 local function taglist_update(self, t)
     local w = self:get_children_by_id('icon_bg_role')[1]
