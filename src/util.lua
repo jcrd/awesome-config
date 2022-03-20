@@ -3,7 +3,6 @@ local awful = require('awful')
 local util = {}
 
 util.tag = {}
-util.layout = {}
 util.client = {}
 
 function util.icon_markup(i, size, rise)
@@ -36,8 +35,17 @@ function util.tag.view_focus(t)
     end
 end
 
-function util.layout.toggle(s)
-    awful.layout.inc(1, s or awful.screen.focused())
+function util.tag.view_toggle(s)
+    s = s or awful.screen.focused()
+    if #s.selected_tags <= 1 then
+        awful.tag.history.restore()
+        return
+    end
+    if not (client.focus and client.focus.self_tag_name) then
+        return
+    end
+    local t = util.tag.byname(client.focus.self_tag_name, s)
+    t:view_only()
 end
 
 function util.client.make_panel(c)

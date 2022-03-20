@@ -129,7 +129,6 @@ client.connect_signal('request::titlebars', function (c)
         {
             {
                 buttons.hide(c),
-                buttons.toggle(c),
                 buttons.close(c),
                 layout = wibox.layout.fixed.horizontal,
                 spacing = dpi(14),

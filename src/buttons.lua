@@ -19,12 +19,6 @@ function btns.close(c)
     })
 end
 
-function btns.toggle(c)
-    return btn('缾', {
-        awful.button({}, 1, function () util.layout.toggle(c.screen) end),
-    })
-end
-
 function btns.hide(c)
     return btn('', {
         awful.button({}, 1, function ()

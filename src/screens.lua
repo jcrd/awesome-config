@@ -90,8 +90,6 @@ local function taglist_update(self, t)
 end
 
 screen.connect_signal('request::desktop_decoration', function (s)
-    s.mylayouts = {}
-
     s.mytaglist = awful.widget.taglist {
         screen  = s,
         filter  = function (t) return not t.panel end,

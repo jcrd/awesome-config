@@ -58,11 +58,8 @@ c.keys = {
         ['M-S-k'] = {awful.client.swap.byidx, -1},
         ['M-q'] = awful.client.focus.history.previous,
 
-        -- Layouts.
-        ['M-f'] = util.layout.toggle,
-
         -- Tags.
-        ['M-Tab'] = awful.tag.history.restore,
+        ['M-Tab'] = util.tag.view_toggle,
         ['M-backslash'] = awful.tag.viewnone,
 
         -- Spawn.
