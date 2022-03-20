@@ -19,10 +19,4 @@ function btns.close(c)
     })
 end
 
-function btns.hide(c)
-    return btn('絛', {
-        awful.button({}, 1, function () util.client.hide(c) end)
-    })
-end
-
 return btns

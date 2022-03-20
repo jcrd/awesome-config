@@ -132,9 +132,7 @@ client.connect_signal('request::titlebars', function (c)
                 c:activate { context = 'titlebar', action = 'mouse_move' }
             end
         end),
-        awful.button({}, 3, function ()
-            c:activate { context = 'titlebar', action = 'mouse_resize' }
-        end),
+        awful.button({}, 3, function () util.client.hide(c) end),
     }
 
     awful.titlebar(c).widget = {
@@ -151,7 +149,6 @@ client.connect_signal('request::titlebars', function (c)
         },
         {
             {
-                buttons.hide(c),
                 buttons.close(c),
                 layout = wibox.layout.fixed.horizontal,
                 spacing = dpi(14),
