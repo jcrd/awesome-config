@@ -29,6 +29,12 @@ c.tags = {
         cmd = 'firefox',
         rule = { class = 'firefox' },
     },
+    private = {
+        icon = '﫸',
+        key = 'r',
+        cmd = 'firefox --private-window',
+        rule = { class = 'firefox' },
+    },
     terminal = {
         icon = '',
         key = 's',
