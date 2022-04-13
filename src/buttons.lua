@@ -1,7 +1,7 @@
 local awful = require('awful')
 local wibox = require('wibox')
 
-local util  = require('util')
+local util = require('util')
 
 local btns = {}
 
@@ -15,7 +15,7 @@ end
 
 function btns.close(c)
     return btn('窱', {
-        awful.button({}, 1, function () c:kill() end),
+        awful.button({}, 1, function() c:kill() end),
     })
 end
 

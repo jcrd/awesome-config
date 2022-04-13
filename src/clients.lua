@@ -13,7 +13,7 @@ local buttons = require('buttons')
 local config = require('config')
 local inhibit = require('inhibit')
 local tags = require('tags')
-local util= require('util')
+local util = require('util')
 
 local options = config.options
 
@@ -43,10 +43,10 @@ end
 
 local scanning_rule = {
     rule = {},
-    callback = function (c)
+    callback = function(c)
         if c.self_tag_name then
             local t = tags.get(c.self_tag_name)
-            c:tags({t})
+            c:tags({ t })
         end
         if c.self_panel then
             util.client.make_panel(c)
@@ -54,23 +54,23 @@ local scanning_rule = {
     end,
 }
 
-client.connect_signal('scanning', function ()
+client.connect_signal('scanning', function()
     ruled.client.append_rule(scanning_rule)
 end)
 
-client.connect_signal('scanned', function ()
+client.connect_signal('scanned', function()
     ruled.client.remove_rule(scanning_rule)
 end)
 
-client.connect_signal('request::default_keybindings', function ()
+client.connect_signal('request::default_keybindings', function()
     awful.keyboard.append_client_keybindings(ez.keytable(config.keys.client))
 end)
 
-client.connect_signal('request::default_mousebindings', function ()
+client.connect_signal('request::default_mousebindings', function()
     awful.mouse.append_client_mousebindings(ez.btntable(config.buttons.client))
 end)
 
-client.connect_signal('manage', function (c)
+client.connect_signal('manage', function(c)
     if awesome.startup then
         if not c.size_hints.user_position
             and not c.size_hints.program_position then
@@ -79,17 +79,17 @@ client.connect_signal('manage', function (c)
     end
 end)
 
-client.connect_signal('focus', function (c)
+client.connect_signal('focus', function(c)
     c.border_color = beautiful.border_focus
     c:raise()
 end)
 
-client.connect_signal('unfocus', function (c)
+client.connect_signal('unfocus', function(c)
     c.border_color = beautiful.border_normal
     if c.floating then c:lower() end
 end)
 
-client.connect_signal('property::floating', function (c)
+client.connect_signal('property::floating', function(c)
     if c.floating then
         awful.placement.centered(c)
         c:raise()
@@ -104,7 +104,7 @@ if not options.clients.allow_maximized then
     }
 
     for _, prop in ipairs(props) do
-        client.connect_signal('property::'..prop, function (c)
+        client.connect_signal('property::' .. prop, function(c)
             if c[prop] then
                 c[prop] = false
             end
@@ -112,10 +112,10 @@ if not options.clients.allow_maximized then
     end
 end
 
-client.connect_signal('request::titlebars', function (c)
+client.connect_signal('request::titlebars', function(c)
     local click = false
     local btns = {
-        awful.button({}, 1, function ()
+        awful.button({}, 1, function()
             if click then
                 click = false
                 util.tag.view_toggle(c.screen)
@@ -125,14 +125,14 @@ client.connect_signal('request::titlebars', function (c)
                     timeout = 0.33,
                     autostart = true,
                     single_shot = true,
-                    callback = function ()
+                    callback = function()
                         click = false
                     end,
                 }
                 c:activate { context = 'titlebar', action = 'mouse_move' }
             end
         end),
-        awful.button({}, 3, function () util.client.hide(c) end),
+        awful.button({}, 3, function() util.client.hide(c) end),
     }
 
     awful.titlebar(c).widget = {
@@ -160,7 +160,7 @@ client.connect_signal('request::titlebars', function (c)
     }
 end)
 
-ruled.client.connect_signal('request::rules', function ()
+ruled.client.connect_signal('request::rules', function()
     ruled.client.append_rule {
         id = 'global',
         rule = {},

@@ -12,12 +12,12 @@ local config = require('config')
 local util = require('util')
 
 
-local clock_format = util.icon_markup('', nil, -1500)..' %a, %b %e '
-                   ..util.icon_markup('', nil, -2500)..' %l:%M%P'
+local clock_format = util.icon_markup('', nil, -1500) .. ' %a, %b %e '
+    .. util.icon_markup('', nil, -2500) .. ' %l:%M%P'
 
 local clock_widget = wibox.widget.textclock(clock_format)
 
-session.connect_signal('PrepareForSleep', function (before)
+session.connect_signal('PrepareForSleep', function(before)
     if not before then
         clock_widget:force_update()
     end
@@ -25,7 +25,7 @@ end)
 
 local pomo_icon_widget = {
     widget = wibox.widget.textbox,
-    handler = function (w, a) w.markup = a..' ' end,
+    handler = function(w, a) w.markup = a .. ' ' end,
     assets = {
         stopped = util.icon_markup(''),
         working = util.icon_markup(''),
@@ -50,7 +50,7 @@ local info = {
 for _, name in ipairs(config.widgets) do
     local w
     if name == 'audio' then
-        audio.widget.icon_markup = function (i)
+        audio.widget.icon_markup = function(i)
             return util.icon_markup(i, 'xx-large')
         end
         w = audio.widget.volumebar()
@@ -66,7 +66,7 @@ for _, name in ipairs(config.widgets) do
     elseif name == 'pomodoro' then
         local pomo = require('widgets.pomodoro')
         pomo.init {
-            path = awful.util.get_configuration_dir()..'src/widgets',
+            path = awful.util.get_configuration_dir() .. 'src/widgets',
             config = config.options.pomodoro,
             icon_widget = pomo_icon_widget,
         }
@@ -84,11 +84,11 @@ local function taglist_update(self, t)
     w.fg = t.selected and beautiful.fg_focus or beautiful.fg_normal
 end
 
-screen.connect_signal('request::desktop_decoration', function (s)
+screen.connect_signal('request::desktop_decoration', function(s)
     s.mytaglist = awful.widget.taglist {
-        screen  = s,
-        filter  = function (t) return not t.panel end,
-        buttons = ez.btntable(config.buttons.taglist),
+        screen          = s,
+        filter          = function(t) return not t.panel end,
+        buttons         = ez.btntable(config.buttons.taglist),
         widget_template = {
             {
                 {
@@ -106,8 +106,8 @@ screen.connect_signal('request::desktop_decoration', function (s)
                         widget = wibox.container.margin,
                     },
                     {
-                            id = 'text_role',
-                            widget = wibox.widget.textbox,
+                        id = 'text_role',
+                        widget = wibox.widget.textbox,
                     },
                     layout = wibox.layout.fixed.horizontal,
                 },
@@ -117,7 +117,7 @@ screen.connect_signal('request::desktop_decoration', function (s)
             },
             id = 'background_role',
             widget = wibox.container.background,
-            create_callback = function (self, t)
+            create_callback = function(self, t)
                 if t.icon_text then
                     local w = self:get_children_by_id('icon_text_role')[1]
                     w.markup = util.icon_markup(t.icon_text, 'xx-large')
@@ -144,7 +144,7 @@ screen.connect_signal('request::desktop_decoration', function (s)
 end)
 
 if beautiful.desktop_wallpaper then
-    screen.connect_signal('request::wallpaper', function (s)
+    screen.connect_signal('request::wallpaper', function(s)
         gears.wallpaper.set(beautiful.desktop_wallpaper)
     end)
 end

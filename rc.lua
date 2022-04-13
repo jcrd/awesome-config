@@ -4,7 +4,7 @@ local beautiful = require('beautiful')
 local ez = require('awesome-ez')
 local session = require('sessiond_dbus')
 
-beautiful.init(awful.util.get_configuration_dir()..'/theme.lua')
+beautiful.init(awful.util.get_configuration_dir() .. '/theme.lua')
 
 require('widgets.audio').init {
     logger = require('log'),

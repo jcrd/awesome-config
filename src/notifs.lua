@@ -7,7 +7,7 @@ local session = require('sessiond_dbus')
 local audio = require('widgets.audio')
 local options = require('config').options
 
-ruled.notification.connect_signal('request::rules', function ()
+ruled.notification.connect_signal('request::rules', function()
     ruled.notification.append_rule {
         rule = {},
         properties = {
@@ -18,7 +18,7 @@ ruled.notification.connect_signal('request::rules', function ()
     }
 end)
 
-session.on_backlight_error = function (msg)
+session.on_backlight_error = function(msg)
     naughty.notification {
         urgency = 'critical',
         title = 'Session backlight error',
@@ -26,21 +26,21 @@ session.on_backlight_error = function (msg)
     }
 end
 
-naughty.connect_signal('request::display', function (n)
-    naughty.layout.box {notification = n}
+naughty.connect_signal('request::display', function(n)
+    naughty.layout.box { notification = n }
 end)
 
-naughty.connect_signal('request::display_error', function (message, startup)
+naughty.connect_signal('request::display_error', function(message, startup)
     naughty.notification {
         urgency = 'critical',
-        title   = 'Error'..(startup and ' during startup' or ''),
+        title   = 'Error' .. (startup and ' during startup' or ''),
         message = message,
     }
 end)
 
 local audio_notif
 
-audio.on_change = function (v, m)
+audio.on_change = function(v, m)
     if not (client.focus and client.focus.fullscreen) then
         return
     end
@@ -61,7 +61,7 @@ if options.battery.widget_enabled then
     local batt_charged = false
     local batt_low = false
 
-    battery.on_update = function (power, time, percent)
+    battery.on_update = function(power, time, percent)
         if power then
             batt_low = false
             if percent >= options.battery.charged_percent then

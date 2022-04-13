@@ -35,7 +35,7 @@ local function has_focused_client(t)
 end
 
 local function with_tag(func)
-    return function (name)
+    return function(name)
         local data = tags.rules[name]
         if not data then
             return
@@ -47,7 +47,7 @@ local function with_tag(func)
     end
 end
 
-local view_smart = with_tag(function (t)
+local view_smart = with_tag(function(t)
     if not t.selected then
         util.tag.view_focus(t)
         return
@@ -60,14 +60,14 @@ local view_smart = with_tag(function (t)
     end
 end)
 
-local view_only = with_tag(function (t) t:view_only() end)
+local view_only = with_tag(function(t) t:view_only() end)
 
 local function add_pending_rule(t, data)
     local n = t.name
 
     data.timer = gears.timer {
         timeout = 5,
-        callback = function ()
+        callback = function()
             if pending_rules[n] then
                 pending_rules[n] = nil
             end
@@ -86,7 +86,7 @@ local function handle_rule(name, data, pending, c, props, cbs)
         self_tag_name = name,
     })
     if new then
-        table.insert(cbs, function ()
+        table.insert(cbs, function()
             util.tag.view_focus(t)
         end)
     end
@@ -111,11 +111,11 @@ local function process_rules(ruleset, pending, c, ...)
     return false
 end
 
-tag.connect_signal('request::default_layouts', function ()
+tag.connect_signal('request::default_layouts', function()
     awful.layout.append_default_layouts { awful.layout.suit.tile }
 end)
 
-ruled.client.add_rule_source('tag_rule_source', function (...)
+ruled.client.add_rule_source('tag_rule_source', function(...)
     if not process_rules(pending_rules, true, ...) then
         process_rules(tags.rules, false, ...)
     end
@@ -127,7 +127,7 @@ function tags.get(name, data, s)
     if new and data.cmd then
         add_pending_rule(t, data)
         log.debug('[tags] Spawning client: %s', data.cmd)
-        awful.spawn('systemd-run --user --scope '..data.cmd)
+        awful.spawn('systemd-run --user --scope ' .. data.cmd)
     end
     return t
 end
@@ -135,8 +135,8 @@ end
 function tags.keybindings()
     local ks = {}
     for name, data in pairs(tags.rules) do
-        ks['M-'..data.key] = {view_smart, name}
-        ks['M-S-'..data.key] = {view_only, name}
+        ks['M-' .. data.key] = { view_smart, name }
+        ks['M-S-' .. data.key] = { view_only, name }
     end
     return ks
 end

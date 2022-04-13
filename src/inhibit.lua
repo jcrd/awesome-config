@@ -10,7 +10,7 @@ local function uninhibit(c)
 end
 
 local function toggle_inhibit(who, names)
-    return function (c)
+    return function(c)
         if not c.active then
             uninhibit(c)
             return
@@ -37,9 +37,9 @@ end
 
 function inhibit.callback(who, names)
     if not names or type(names) == 'string' then
-        names = {names}
+        names = { names }
     end
-    return function (c)
+    return function(c)
         c.toggle_inhibit = toggle_inhibit(who, names)
         if #names > 0 then
             c:connect_signal('property::name', c.toggle_inhibit)

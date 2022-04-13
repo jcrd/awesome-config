@@ -58,10 +58,10 @@ c.tags = {
 c.keys = {
     global = {
         -- Clients.
-        ['M-j'] = {awful.client.focus.byidx, 1},
-        ['M-k'] = {awful.client.focus.byidx, -1},
-        ['M-S-j'] = {awful.client.swap.byidx, 1},
-        ['M-S-k'] = {awful.client.swap.byidx, -1},
+        ['M-j'] = { awful.client.focus.byidx, 1 },
+        ['M-k'] = { awful.client.focus.byidx, -1 },
+        ['M-S-j'] = { awful.client.swap.byidx, 1 },
+        ['M-S-k'] = { awful.client.swap.byidx, -1 },
         ['M-q'] = awful.client.focus.history.previous,
 
         -- Tags.
@@ -69,45 +69,45 @@ c.keys = {
         ['M-backslash'] = awful.tag.viewnone,
 
         -- Spawn.
-        ['M-p'] = {awful.spawn, 'passless-rofi'},
-        ['M-l'] = {awful.spawn, 'rofi -show run'},
+        ['M-p'] = { awful.spawn, 'passless-rofi' },
+        ['M-l'] = { awful.spawn, 'rofi -show run' },
 
         -- Controls.
-        ['M-Up'] = {cmds.backlight.inc, 10, is_laptop or 'ddcutil setvcp 10 + %d'},
-        ['M-Down'] = {cmds.backlight.dec, 10, is_laptop or 'ddcutil setvcp 10 - %d'},
+        ['M-Up'] = { cmds.backlight.inc, 10, is_laptop or 'ddcutil setvcp 10 + %d' },
+        ['M-Down'] = { cmds.backlight.dec, 10, is_laptop or 'ddcutil setvcp 10 - %d' },
 
         ['XF86AudioLowerVolume'] = audio.dec_volume,
         ['XF86AudioRaiseVolume'] = audio.inc_volume,
         ['XF86AudioMute'] = audio.toggle_mute,
 
-        ['Print'] = function () cmds.screenshot(true) end,
+        ['Print'] = function() cmds.screenshot(true) end,
         ['S-Print'] = cmds.screenshot,
 
         ['M-C-r'] = awesome.restart,
         ['M-C-q'] = awesome.quit,
 
         ['M-Scroll_Lock'] = session.lock,
-        ['M-Pause'] = {awful.spawn, 'systemctl suspend'},
+        ['M-Pause'] = { awful.spawn, 'systemctl suspend' },
 
         -- Pomodoro.
         ['M-1'] = pomo.toggle,
         ['M-S-1'] = pomo.stop,
     },
     client = {
-        ['M-BackSpace'] = function (cl) cl:kill() end,
+        ['M-BackSpace'] = function(cl) cl:kill() end,
         ['M-x'] = util.client.hide,
     },
 }
 
 c.buttons = {
     client = {
-        ['1'] = function (cl) cl:activate { context = 'mouse_click' } end,
-        ['M-1'] = function (cl) cl:activate { context = 'mouse_click', action = 'mouse_move' } end,
-        ['M-3'] = function (cl) cl:activate { context = 'mouse_click', action = 'mouse_resize' } end,
+        ['1'] = function(cl) cl:activate { context = 'mouse_click' } end,
+        ['M-1'] = function(cl) cl:activate { context = 'mouse_click', action = 'mouse_move' } end,
+        ['M-3'] = function(cl) cl:activate { context = 'mouse_click', action = 'mouse_resize' } end,
     },
     taglist = {
         ['1'] = util.tag.view_focus,
-        ['3'] = function (t) t:view_only() end,
+        ['3'] = function(t) t:view_only() end,
     },
 }
 
