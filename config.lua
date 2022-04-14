@@ -47,12 +47,6 @@ c.tags = {
         cmd = 'notion-app-enhanced',
         rule = { instance = 'notion-app-enhanced' },
     },
-    godot = {
-        icon = '',
-        key = 'e',
-        cmd = 'godot',
-        rule = { instance = 'Godot_Engine' },
-    },
 }
 
 c.keys = {
