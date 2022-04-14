@@ -11,6 +11,12 @@ local audio = require('widgets.audio')
 local config = require('config')
 local util = require('util')
 
+tag.connect_signal('request::default_layouts', function()
+    awful.layout.append_default_layouts {
+        awful.layout.suit.tile,
+        awful.layout.suit.max,
+    }
+end)
 
 local clock_format = util.icon_markup('', nil, -1500) .. ' %a, %b %e '
     .. util.icon_markup('', nil, -2500) .. ' %l:%M%P'
@@ -79,52 +85,47 @@ end
 
 table.insert(info, info_widget(clock_widget))
 
-local function taglist_update(self, t)
-    local w = self:get_children_by_id('icon_bg_role')[1]
-    w.fg = t.selected and beautiful.fg_focus or beautiful.fg_normal
+local function update_tasklist(widget, c)
+    local text = widget:get_children_by_id('text_background')[1]
+    local bg = widget:get_children_by_id('background')[1]
+    if not c.minimized then
+        text.fg = beautiful.fg_focus
+        bg.bg = beautiful.bg_focus
+    else
+        text.fg = beautiful.fg_normal
+        bg.bg = beautiful.bg_normal
+    end
 end
 
 screen.connect_signal('request::desktop_decoration', function(s)
-    s.mytaglist = awful.widget.taglist {
+    awful.tag({ 'main' }, s, awful.layout.layouts[1])
+
+    s.mytasklist = awful.widget.tasklist {
         screen          = s,
-        filter          = function(t) return not t.panel end,
-        buttons         = ez.btntable(config.buttons.taglist),
+        filter          = awful.widget.tasklist.filter.currenttags,
+        buttons         = ez.btntable(config.buttons.tasklist),
         widget_template = {
             {
                 {
                     {
-                        {
-                            {
-                                id = 'icon_text_role',
-                                widget = wibox.widget.textbox,
-                                forced_width = beautiful.font_size + dpi(2),
-                            },
-                            id = 'icon_bg_role',
-                            widget = wibox.container.background,
-                        },
-                        right = dpi(4),
-                        widget = wibox.container.margin,
-                    },
-                    {
-                        id = 'text_role',
+                        id = 'text',
                         widget = wibox.widget.textbox,
+                        align = 'center',
                     },
-                    layout = wibox.layout.fixed.horizontal,
+                    id = 'text_background',
+                    widget = wibox.container.background,
                 },
-                left = dpi(6),
-                right = dpi(6),
+                left = dpi(10),
+                right = dpi(10),
                 widget = wibox.container.margin,
             },
-            id = 'background_role',
+            id = 'background',
             widget = wibox.container.background,
-            create_callback = function(self, t)
-                if t.icon_text then
-                    local w = self:get_children_by_id('icon_text_role')[1]
-                    w.markup = util.icon_markup(t.icon_text, 'xx-large')
-                end
-                taglist_update(self, t)
+            create_callback = function(self, c)
+                self:get_children_by_id('text')[1].text = c.class
+                update_tasklist(self, c)
             end,
-            update_callback = taglist_update,
+            update_callback = update_tasklist,
         },
     }
 
@@ -132,10 +133,8 @@ screen.connect_signal('request::desktop_decoration', function(s)
         screen = s,
         height = beautiful.wibar_height,
         widget = {
-            {
-                layout = wibox.layout.fixed.horizontal,
-            },
-            s.mytaglist,
+            nil,
+            s.mytasklist,
             info,
             layout = wibox.layout.align.horizontal,
             expand = 'none',

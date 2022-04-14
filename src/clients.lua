@@ -12,12 +12,15 @@ local ez = require('awesome-ez')
 local buttons = require('buttons')
 local config = require('config')
 local inhibit = require('inhibit')
-local tags = require('tags')
 local util = require('util')
 
 local options = config.options
 
-awful.client.property.persist('self_tag_name', 'string')
+local clients = {}
+
+clients.rules = {}
+local pending_rules = {}
+
 awful.client.property.persist('self_panel', 'boolean')
 
 local function inhibitor_who(rule)
@@ -44,10 +47,6 @@ end
 local scanning_rule = {
     rule = {},
     callback = function(c)
-        if c.self_tag_name then
-            local t = tags.get(c.self_tag_name)
-            c:tags({ t })
-        end
         if c.self_panel then
             util.client.make_panel(c)
         end
@@ -118,7 +117,7 @@ client.connect_signal('request::titlebars', function(c)
         awful.button({}, 1, function()
             if click then
                 click = false
-                util.tag.view_toggle(c.screen)
+                util.layout.toggle(c.screen)
             else
                 click = true
                 gears.timer {
@@ -132,7 +131,7 @@ client.connect_signal('request::titlebars', function(c)
                 c:activate { context = 'titlebar', action = 'mouse_move' }
             end
         end),
-        awful.button({}, 3, function() util.client.hide(c) end),
+        awful.button({}, 3, function() util.client.toggle(c) end),
     }
 
     awful.titlebar(c).widget = {
@@ -189,3 +188,59 @@ ruled.client.connect_signal('request::rules', function()
         ruled.client.append_rule(r)
     end
 end)
+
+ruled.client.add_rule_source('panel_rule_source', function(c, _, cbs)
+    if c.self_panel then
+        return
+    end
+    for cmd, data in pairs(pending_rules) do
+        if ruled.client.match(c, data.rule) then
+            table.insert(cbs, util.client.make_panel)
+            data.timer:stop()
+            pending_rules[cmd] = nil
+        end
+    end
+end)
+
+local function add_pending_rule(data)
+    data.timer = gears.timer {
+        timeout = 5,
+        callback = function()
+            if pending_rules[data.cmd] then
+                pending_rules[data.cmd] = nil
+            end
+        end,
+    }
+
+    pending_rules[data.cmd] = data
+    data.timer:start()
+end
+
+local function smart_spawn(data)
+    local c = client.focus
+    if c and ruled.client.match(c, data.rule) then
+        util.client.toggle(c)
+        return
+    end
+    local s = awful.screen.focused()
+    for _, cl in ipairs(s.all_clients) do
+        if ruled.client.match(cl, data.rule) then
+            cl:activate { context = 'smart_spawn' }
+            return
+        end
+    end
+    if data.panel then
+        add_pending_rule(data)
+    end
+    awful.spawn('systemd-run --user --scope ' .. data.cmd)
+end
+
+function clients.keybindings()
+    local ks = {}
+    for _, data in ipairs(clients.rules) do
+        ks['M-' .. data.key] = { smart_spawn, data }
+    end
+    return ks
+end
+
+return clients

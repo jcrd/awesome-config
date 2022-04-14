@@ -10,33 +10,29 @@ local util = require('util')
 local c = {}
 local is_laptop = os.getenv('CHASSIS') == 'laptop'
 
-c.tags = {
-    panel = {
+c.clients = {
+    {
         key = 'grave',
-        cmd = 'kitty',
-        rule = { instance = 'kitty' },
+        cmd = 'kitty --name panel',
+        rule = { instance = 'panel' },
         panel = true,
     },
-    editor = {
-        icon = '',
+    {
         key = 'd',
         cmd = 'code',
         rule = { instance = 'code' },
     },
-    browser = {
-        icon = '',
+    {
         key = 'w',
         cmd = 'firefox',
         rule = { class = 'firefox' },
     },
-    terminal = {
-        icon = '',
+    {
         key = 's',
         cmd = 'kitty',
         rule = { instance = 'kitty' },
     },
-    notion = {
-        icon = '',
+    {
         key = 'a',
         cmd = 'notion-app-enhanced',
         rule = { instance = 'notion-app-enhanced' },
@@ -50,11 +46,7 @@ c.keys = {
         ['M-k'] = { awful.client.focus.byidx, -1 },
         ['M-S-j'] = { awful.client.swap.byidx, 1 },
         ['M-S-k'] = { awful.client.swap.byidx, -1 },
-        ['M-q'] = awful.client.focus.history.previous,
-
-        -- Tags.
-        ['M-Tab'] = util.tag.view_toggle,
-        ['M-backslash'] = awful.tag.viewnone,
+        ['M-Tab'] = awful.client.focus.history.previous,
 
         -- Spawn.
         ['M-p'] = { awful.spawn, 'passless-rofi' },
@@ -82,8 +74,8 @@ c.keys = {
         ['M-S-1'] = pomo.stop,
     },
     client = {
-        ['M-BackSpace'] = function(cl) cl:kill() end,
-        ['M-x'] = util.client.hide,
+        ['M-S-BackSpace'] = function(cl) cl:kill() end,
+        ['M-BackSpace'] = util.client.toggle,
     },
 }
 
@@ -93,9 +85,8 @@ c.buttons = {
         ['M-1'] = function(cl) cl:activate { context = 'mouse_click', action = 'mouse_move' } end,
         ['M-3'] = function(cl) cl:activate { context = 'mouse_click', action = 'mouse_resize' } end,
     },
-    taglist = {
-        ['1'] = util.tag.view_focus,
-        ['3'] = function(t) t:view_only() end,
+    tasklist = {
+        ['1'] = util.client.toggle,
     },
 }
 
