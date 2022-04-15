@@ -87,6 +87,7 @@ c.buttons = {
     },
     tasklist = {
         ['1'] = util.client.toggle,
+        ['3'] = util.client.toggle_only,
     },
 }
 
