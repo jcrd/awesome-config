@@ -8,6 +8,7 @@ local ez = require('awesome-ez')
 local session = require('sessiond_dbus')
 
 local audio = require('widgets.audio')
+local clients = require('clients')
 local config = require('config')
 local util = require('util')
 
@@ -122,7 +123,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
             id = 'background',
             widget = wibox.container.background,
             create_callback = function(self, c)
-                self:get_children_by_id('text')[1].text = c.class
+                self:get_children_by_id('text')[1].markup = clients.get_markup(c)
                 update_tasklist(self, c)
             end,
             update_callback = update_tasklist,

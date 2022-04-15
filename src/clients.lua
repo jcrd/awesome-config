@@ -18,7 +18,7 @@ local options = config.options
 
 local clients = {}
 
-clients.rules = {}
+clients.config = {}
 local pending_rules = {}
 
 awful.client.property.persist('self_panel', 'boolean')
@@ -237,10 +237,26 @@ end
 
 function clients.keybindings()
     local ks = {}
-    for _, data in ipairs(clients.rules) do
+    for _, data in ipairs(clients.config) do
         ks['M-' .. data.key] = { smart_spawn, data }
     end
     return ks
+end
+
+local function get_icon_markup(icon)
+    return util.icon_markup(icon or '', 'xx-large', -(beautiful.font_size * 250))
+end
+
+function clients.get_markup(c)
+    for _, data in ipairs(clients.config) do
+        local r = data.rule
+        if ruled.client.match(c, r) then
+            local n = r.class and c.class or c.instance
+            return string.format('%s %s', get_icon_markup(data.icon), n)
+        end
+    end
+
+    return string.format('%s %s', get_icon_markup(), c.instance)
 end
 
 return clients

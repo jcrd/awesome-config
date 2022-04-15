@@ -21,21 +21,25 @@ c.clients = {
         key = 'd',
         cmd = 'code',
         rule = { instance = 'code' },
+        icon = '',
     },
     {
         key = 'w',
         cmd = 'firefox',
         rule = { class = 'firefox' },
+        icon = '',
     },
     {
         key = 's',
         cmd = 'kitty',
         rule = { instance = 'kitty' },
+        icon = '',
     },
     {
         key = 'a',
         cmd = 'notion-app-enhanced',
         rule = { instance = 'notion-app-enhanced' },
+        icon = '',
     },
 }
 

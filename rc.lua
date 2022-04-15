@@ -15,7 +15,7 @@ local config = require('config')
 require('cmds').config = config
 
 local clients = require('clients')
-clients.rules = config.clients
+clients.config = config.clients
 
 require('screens')
 require('notifs')
