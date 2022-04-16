@@ -87,14 +87,13 @@ end
 table.insert(info, info_widget(clock_widget))
 
 local function update_tasklist(widget, c)
-    local text = widget:get_children_by_id('text_background')[1]
-    local bg = widget:get_children_by_id('background')[1]
+    local b = widget:get_children_by_id('background')[1]
     if not c.minimized then
-        text.fg = beautiful.fg_focus
-        bg.bg = beautiful.bg_focus
+        b.fg = beautiful.fg_focus
+        b.bg = beautiful.bg_focus
     else
-        text.fg = beautiful.fg_normal
-        bg.bg = beautiful.bg_normal
+        b.fg = beautiful.fg_normal
+        b.bg = beautiful.bg_normal
     end
 end
 
@@ -109,12 +108,20 @@ screen.connect_signal('request::desktop_decoration', function(s)
             {
                 {
                     {
+                        {
+                            id = 'icon',
+                            widget = wibox.widget.textbox,
+                            forced_width = beautiful.font_size + dpi(2),
+                        },
+                        right = dpi(6),
+                        widget = wibox.container.margin,
+                    },
+                    {
                         id = 'text',
                         widget = wibox.widget.textbox,
                         align = 'center',
                     },
-                    id = 'text_background',
-                    widget = wibox.container.background,
+                    layout = wibox.layout.align.horizontal,
                 },
                 left = dpi(10),
                 right = dpi(10),
@@ -123,7 +130,12 @@ screen.connect_signal('request::desktop_decoration', function(s)
             id = 'background',
             widget = wibox.container.background,
             create_callback = function(self, c)
-                self:get_children_by_id('text')[1].markup = clients.get_markup(c)
+                local n, i = clients.get_name_and_icon(c)
+                i = util.icon_markup(i, 'xx-large', -(beautiful.font_size * 250))
+
+                self:get_children_by_id('text')[1].text = n
+                self:get_children_by_id('icon')[1].markup = i
+
                 update_tasklist(self, c)
             end,
             update_callback = update_tasklist,

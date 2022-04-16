@@ -243,20 +243,24 @@ function clients.keybindings()
     return ks
 end
 
-local function get_icon_markup(icon)
-    return util.icon_markup(icon or '', 'xx-large', -(beautiful.font_size * 250))
-end
+function clients.get_name_and_icon(c)
+    local name = c.instance
+    local icon = ''
 
-function clients.get_markup(c)
     for _, data in ipairs(clients.config) do
         local r = data.rule
         if ruled.client.match(c, r) then
-            local n = r.class and c.class or c.instance
-            return string.format('%s %s', get_icon_markup(data.icon), n)
+            if r.class then
+                name = c.class
+            end
+            if data.icon then
+                icon = data.icon
+            end
+            break
         end
     end
 
-    return string.format('%s %s', get_icon_markup(), c.instance)
+    return name, icon
 end
 
 return clients
