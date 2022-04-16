@@ -1,3 +1,5 @@
+local awful = require('awful')
+
 local client_mem = require('shared').client_mem
 
 local util = {}
@@ -12,7 +14,11 @@ util.client = {}
 
 function util.client.toggle(c, state)
     if state == nil then
-        state = c.minimized
+        if awful.layout.get(c.screen) == awful.layout.suit.max then
+            state = not c.active
+        else
+            state = c.minimized
+        end
     end
     if state then
         c:activate { context = 'client_toggle' }
