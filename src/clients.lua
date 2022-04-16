@@ -14,11 +14,10 @@ local config = require('config')
 local inhibit = require('inhibit')
 local util = require('util')
 
-local options = config.options
+local mem = require('shared').client_mem
 
 local clients = {}
 
-clients.config = {}
 local pending_rules = {}
 
 awful.client.property.persist('self_panel', 'boolean')
@@ -44,11 +43,19 @@ local function inhibitor_who(rule)
     return who or 'unknown'
 end
 
+local function make_panel(c)
+    c.self_panel = true
+    c.floating = true
+    c.skip_taskbar = true
+    awful.placement.scale(c, { to_percent = 0.5 })
+    awful.placement.centered(c)
+end
+
 local scanning_rule = {
     rule = {},
     callback = function(c)
         if c.self_panel then
-            util.client.make_panel(c)
+            make_panel(c)
         end
     end,
 }
@@ -69,13 +76,17 @@ client.connect_signal('request::default_mousebindings', function()
     awful.mouse.append_client_mousebindings(ez.btntable(config.buttons.client))
 end)
 
-client.connect_signal('manage', function(c)
+client.connect_signal('request::manage', function(c)
     if awesome.startup then
         if not c.size_hints.user_position
             and not c.size_hints.program_position then
             awful.placement.no_offscreen(c)
         end
     end
+end)
+
+client.connect_signal('request::unmanage', function(c)
+    mem:purge(c)
 end)
 
 client.connect_signal('focus', function(c)
@@ -95,7 +106,7 @@ client.connect_signal('property::floating', function(c)
     end
 end)
 
-if not options.clients.allow_maximized then
+if not config.options.clients.allow_maximized then
     local props = {
         'maximized',
         'maximized_vertical',
@@ -117,7 +128,7 @@ client.connect_signal('request::titlebars', function(c)
         awful.button({}, 1, function()
             if click then
                 click = false
-                util.layout.toggle(c.screen)
+                awful.layout.inc(1, c.screen)
             else
                 click = true
                 gears.timer {
@@ -195,7 +206,7 @@ ruled.client.add_rule_source('panel_rule_source', function(c, _, cbs)
     end
     for cmd, data in pairs(pending_rules) do
         if ruled.client.match(c, data.rule) then
-            table.insert(cbs, util.client.make_panel)
+            table.insert(cbs, make_panel)
             data.timer:stop()
             pending_rules[cmd] = nil
         end
@@ -237,7 +248,7 @@ end
 
 function clients.keybindings()
     local ks = {}
-    for _, data in ipairs(clients.config) do
+    for _, data in ipairs(config.clients) do
         ks['M-' .. data.key] = { smart_spawn, data }
     end
     return ks
@@ -247,7 +258,7 @@ function clients.get_name_and_icon(c)
     local name = c.instance
     local icon = ''
 
-    for _, data in ipairs(clients.config) do
+    for _, data in ipairs(config.clients) do
         local r = data.rule
         if ruled.client.match(c, r) then
             if r.class then

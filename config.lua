@@ -5,7 +5,6 @@ local session = require('sessiond_dbus')
 local cmds = require('cmds')
 local audio = require('widgets.audio')
 local pomo = require('widgets.pomodoro')
-local util = require('util')
 
 local c = {}
 local is_laptop = os.getenv('CHASSIS') == 'laptop'
@@ -51,6 +50,7 @@ c.keys = {
         ['M-S-j'] = { awful.client.swap.byidx, 1 },
         ['M-S-k'] = { awful.client.swap.byidx, -1 },
         ['M-Tab'] = awful.client.focus.history.previous,
+        ['M-q'] = cmds.client.restore,
 
         -- Spawn.
         ['M-p'] = { awful.spawn, 'passless-rofi' },
@@ -79,7 +79,7 @@ c.keys = {
     },
     client = {
         ['M-S-BackSpace'] = function(cl) cl:kill() end,
-        ['M-BackSpace'] = util.client.toggle,
+        ['M-BackSpace'] = cmds.client.toggle,
     },
 }
 
@@ -90,8 +90,8 @@ c.buttons = {
         ['M-3'] = function(cl) cl:activate { context = 'mouse_click', action = 'mouse_resize' } end,
     },
     tasklist = {
-        ['1'] = util.client.toggle,
-        ['3'] = util.client.toggle_only,
+        ['1'] = cmds.client.toggle,
+        ['3'] = cmds.client.toggle_only,
     },
 }
 

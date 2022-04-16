@@ -5,6 +5,7 @@ local session = require('sessiond_dbus')
 local cmds = {}
 
 cmds.config = {}
+cmds.client = require('util').client
 
 local function backlight_cmd(func, v, cmd)
     if type(cmd) == 'string' then
