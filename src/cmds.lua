@@ -2,10 +2,14 @@ local awful = require('awful')
 
 local session = require('sessiond_dbus')
 
+local util = require('util')
+
 local cmds = {}
 
 cmds.config = {}
-cmds.client = require('util').client
+
+cmds.client = util.client
+cmds.layout = util.layout
 
 local function backlight_cmd(func, v, cmd)
     if type(cmd) == 'string' then

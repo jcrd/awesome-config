@@ -10,6 +10,12 @@ function util.icon_markup(i, size, rise)
     return string.format("<span size='%s' %s>%s</span>", size, rise, i)
 end
 
+util.layout = {}
+
+function util.layout.toggle(s)
+    awful.layout.inc(1, s or awful.screen.focused())
+end
+
 util.client = {}
 
 function util.client.toggle(c, state)

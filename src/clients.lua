@@ -128,7 +128,7 @@ client.connect_signal('request::titlebars', function(c)
         awful.button({}, 1, function()
             if click then
                 click = false
-                awful.layout.inc(1, c.screen)
+                util.layout.toggle(c.screen)
             else
                 click = true
                 gears.timer {

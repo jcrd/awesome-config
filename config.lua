@@ -52,6 +52,9 @@ c.keys = {
         ['M-Tab'] = awful.client.focus.history.previous,
         ['M-q'] = cmds.client.restore,
 
+        -- Layout.
+        ['M-c'] = cmds.layout.toggle,
+
         -- Spawn.
         ['M-p'] = { awful.spawn, 'passless-rofi' },
         ['M-l'] = { awful.spawn, 'rofi -show run' },
