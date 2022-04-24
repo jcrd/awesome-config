@@ -24,9 +24,9 @@ c.clients = {
     },
     {
         key = 'w',
-        cmd = 'firefox',
-        rule = { class = 'firefox' },
-        icon = '',
+        cmd = 'flatpak run com.google.Chrome',
+        rule = { instance = 'google-chrome' },
+        icon = '',
     },
     {
         key = 's',
