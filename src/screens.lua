@@ -87,14 +87,16 @@ end
 table.insert(info, info_widget(clock_widget))
 
 local function update_tasklist(widget, c)
-    local b = widget:get_children_by_id('background')[1]
-    if not c.minimized then
-        b.fg = beautiful.fg_focus
-        b.bg = beautiful.bg_focus
-    else
-        b.fg = beautiful.fg_normal
-        b.bg = beautiful.bg_normal
-    end
+    gears.timer.delayed_call(function()
+        local b = widget:get_children_by_id('background')[1]
+        if not c.minimized then
+            b.fg = beautiful.fg_focus
+            b.bg = beautiful.bg_focus
+        else
+            b.fg = beautiful.fg_normal
+            b.bg = beautiful.bg_normal
+        end
+    end)
 end
 
 screen.connect_signal('request::desktop_decoration', function(s)
