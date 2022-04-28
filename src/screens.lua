@@ -119,9 +119,14 @@ screen.connect_signal('request::desktop_decoration', function(s)
                         widget = wibox.container.margin,
                     },
                     {
-                        id = 'text',
-                        widget = wibox.widget.textbox,
-                        align = 'center',
+                        {
+                            id = 'text',
+                            widget = wibox.widget.textbox,
+                            align = 'center',
+                        },
+                        strategy = 'min',
+                        width = beautiful.font_size * dpi(3),
+                        widget = wibox.container.constraint,
                     },
                     layout = wibox.layout.align.horizontal,
                 },
