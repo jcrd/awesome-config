@@ -261,7 +261,9 @@ function clients.get_name_and_icon(c)
     for _, data in ipairs(config.clients) do
         local r = data.rule
         if ruled.client.match(c, r) then
-            if r.class then
+            if data.name then
+                name = data.name
+            elseif r.class then
                 name = c.class
             end
             if data.icon then

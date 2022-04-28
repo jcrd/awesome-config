@@ -11,6 +11,7 @@ local is_laptop = os.getenv('CHASSIS') == 'laptop'
 
 c.clients = {
     {
+        name = 'panel',
         key = 'grave',
         cmd = 'kitty --name panel',
         rule = { instance = 'panel' },
@@ -23,24 +24,28 @@ c.clients = {
         icon = '',
     },
     {
+        name = 'chrome',
         key = 'w',
         cmd = 'google-chrome',
         rule = { instance = 'google-chrome' },
         icon = '',
     },
     {
+        name = 'term',
         key = 's',
         cmd = 'kitty',
         rule = { instance = 'kitty' },
         icon = '',
     },
     {
+        name = 'files',
         key = 'e',
         cmd = 'nautilus',
         rule = { instance = 'org.gnome.Nautilus' },
         icon = 'פּ',
     },
     {
+        name = 'notion',
         key = 'a',
         cmd = 'notion-app-enhanced',
         rule = { instance = 'notion-app-enhanced' },
