@@ -35,6 +35,12 @@ c.clients = {
         icon = '',
     },
     {
+        key = 'e',
+        cmd = 'nautilus',
+        rule = { instance = 'org.gnome.Nautilus' },
+        icon = 'פּ',
+    },
+    {
         key = 'a',
         cmd = 'notion-app-enhanced',
         rule = { instance = 'notion-app-enhanced' },
