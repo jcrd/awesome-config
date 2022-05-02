@@ -26,7 +26,7 @@ c.clients = {
     {
         name = 'chrome',
         key = 'w',
-        cmd = 'google-chrome',
+        cmd = 'google-chrome-stable',
         rule = { instance = 'google-chrome' },
         icon = '',
     },
